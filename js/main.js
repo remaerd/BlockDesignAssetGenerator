@@ -16,16 +16,69 @@ document.addEventListener('DOMContentLoaded', () => {
         if (line) {
             cube.remove(line);
         }
+        const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
         const edges = new THREE.EdgesGeometry(cube.geometry);
-        const lineMat = new THREE.LineBasicMaterial({ color: 0x000000 });
+        const lineMat = new THREE.LineBasicMaterial({ color: isDarkMode ? 0xffffff : 0x000000 });
         line = new THREE.LineSegments(edges, lineMat);
         cube.add(line);
     }
 
     createStroke();
 
+    const tabs = document.querySelectorAll('.tabs li');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const faceNormals = [
+        new THREE.Vector3(1, 0, 0),  // right
+        new THREE.Vector3(-1, 0, 0), // left
+        new THREE.Vector3(0, 1, 0),  // top
+        new THREE.Vector3(0, -1, 0), // bottom
+        new THREE.Vector3(0, 0, 1),  // front
+        new THREE.Vector3(0, 0, -1)  // back
+    ];
+    const faceNames = ['right', 'left', 'top', 'bottom', 'front', 'back'];
+
+    function updateActiveTab() {
+        const cameraDirection = new THREE.Vector3();
+        camera.getWorldDirection(cameraDirection);
+        cameraDirection.negate();
+
+        const visibleFaceNames = [];
+
+        for (let i = 0; i < faceNormals.length; i++) {
+            const normal = faceNormals[i].clone();
+            normal.applyQuaternion(cube.quaternion);
+            const dot = normal.dot(cameraDirection);
+
+            // A face is visible if the dot product is greater than a small threshold.
+            if (dot > 0.001) {
+                visibleFaceNames.push(faceNames[i]);
+            }
+        }
+
+        tabs.forEach(tab => {
+            const isVisible = visibleFaceNames.includes(tab.dataset.tab);
+            if (isVisible) {
+                tab.classList.add('is-bold');
+                tab.classList.remove('is-disabled');
+            } else {
+                tab.classList.remove('is-bold');
+                tab.classList.add('is-disabled');
+            }
+        });
+
+        tabContents.forEach(content => {
+            const faceName = content.id.replace('-content', '');
+            if (visibleFaceNames.includes(faceName)) {
+                content.style.opacity = '1.0';
+            } else {
+                content.style.opacity = '0.5';
+            }
+        });
+    }
+
     function animate() {
         requestAnimationFrame(animate);
+        updateActiveTab();
         renderer.render(scene, camera);
     }
 
@@ -62,13 +115,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const toggleUiButton = document.getElementById('toggleUiButton');
-    const panels = document.querySelectorAll('.panel');
+    const mainPanel = document.getElementById('main-panel');
+    const bottomControls = document.getElementById('bottom-controls');
     let uiVisible = true;
 
     toggleUiButton.addEventListener('click', () => {
         uiVisible = !uiVisible;
-        panels.forEach(panel => {
-            panel.style.display = uiVisible ? 'block' : 'none';
+        mainPanel.style.display = uiVisible ? 'block' : 'none';
+        bottomControls.style.display = uiVisible ? 'block' : 'none';
+    });
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(item => item.classList.remove('is-active'));
+            tab.classList.add('is-active');
+
+            const target = tab.dataset.tab;
+            tabContents.forEach(content => {
+                content.style.display = content.id === `${target}-content` ? 'block' : 'none';
+            });
         });
     });
 
@@ -77,8 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const rotateX_90 = document.getElementById('rotateX-90');
     const rotateY90 = document.getElementById('rotateY90');
     const rotateY_90 = document.getElementById('rotateY-90');
-    const rotateZ90 = document.getElementById('rotateZ90');
-    const rotateZ_90 = document.getElementById('rotateZ-90');
     const viewIsometric = document.getElementById('viewIsometric');
     const viewFlat = document.getElementById('viewFlat');
 
@@ -89,8 +152,6 @@ document.addEventListener('DOMContentLoaded', () => {
     rotateX_90.addEventListener('click', () => gsap.to(cube.rotation, { x: cube.rotation.x - PI_HALF, duration: rotationDuration, ease: 'power4.inOut' }));
     rotateY90.addEventListener('click', () => gsap.to(cube.rotation, { y: cube.rotation.y + PI_HALF, duration: rotationDuration, ease: 'power4.inOut' }));
     rotateY_90.addEventListener('click', () => gsap.to(cube.rotation, { y: cube.rotation.y - PI_HALF, duration: rotationDuration, ease: 'power4.inOut' }));
-    rotateZ90.addEventListener('click', () => gsap.to(cube.rotation, { z: cube.rotation.z + PI_HALF, duration: rotationDuration, ease: 'power4.inOut' }));
-    rotateZ_90.addEventListener('click', () => gsap.to(cube.rotation, { z: cube.rotation.z - PI_HALF, duration: rotationDuration, ease: 'power4.inOut' }));
 
     let currentViewMode = 'isometric';
     const flatViewFaces = ['front', 'back', 'top', 'bottom', 'right', 'left'];
@@ -124,6 +185,8 @@ document.addEventListener('DOMContentLoaded', () => {
             viewIsometric.classList.remove('active');
             viewFlat.classList.add('active');
         }
+        // Use a timeout to update the tab after the animation starts
+        setTimeout(updateActiveTab, 100);
     }
 
     viewIsometric.addEventListener('click', () => {
@@ -160,13 +223,14 @@ document.addEventListener('DOMContentLoaded', () => {
         left: document.getElementById('leftColor'),
     };
 
+    // BoxGeometry material order: right, left, top, bottom, front, back
     const faceMapping = {
-        front: 0,
-        back: 1,
+        right: 0,
+        left: 1,
         top: 2,
         bottom: 3,
-        right: 4,
-        left: 5,
+        front: 4,
+        back: 5,
     };
 
     for (const face in textInputs) {

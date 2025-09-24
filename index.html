@@ -4,198 +4,272 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Block Design / Brand Asset Generator / School of Computing and Creative Technologies / University of the West of England</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css" id="main-stylesheet">
 </head>
 <body>
     <div id="container">
         <canvas id="canvas"></canvas>
+        <button id="toggleUiButton" class="button is-small">
+            <span class="icon"><i class="fas fa-eye-slash"></i></span>
+            <span>Toggle UI</span>
+        </button>
         <div id="controls">
+            <div id="main-panel" class="box">
+                <div class="tabs is-fullwidth">
+                    <ul>
+                        <li class="is-active" data-tab="front"><a>Front</a></li>
+                        <li data-tab="back"><a>Back</a></li>
+                        <li data-tab="top"><a>Top</a></li>
+                        <li data-tab="bottom"><a>Bottom</a></li>
+                        <li data-tab="right"><a>Right</a></li>
+                        <li data-tab="left"><a>Left</a></li>
+                    </ul>
+                </div>
 
-            <button id="toggleUiButton">Toggle UI</button>
+                <div id="front-content" class="tab-content">
+                    <div class="panel-block">
+                        <div class="control">
+                            <input type="radio" id="frontTextToggle" name="frontContent" value="text" checked>
+                            <label for="frontTextToggle">Text</label>
+                            <input type="radio" id="frontImageToggle" name="frontContent" value="image">
+                            <label for="frontImageToggle">Image</label>
+                            <input type="radio" id="frontVideoToggle" name="frontContent" value="video">
+                            <label for="frontVideoToggle">Video</label>
+                            <input type="radio" id="frontQrToggle" name="frontContent" value="qr">
+                            <label for="frontQrToggle">QR Code</label>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="frontTextContainer">
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <input type="text" id="frontText" class="input" placeholder="Enter text">
+                                </div>
+                                <div class="control">
+                                    <input type="color" id="frontColor" class="input" value="#ff0000">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="frontImageContainer" style="display: none;">
+                        <input type="file" id="frontImage" class="input" accept="image/*">
+                    </div>
+                    <div class="panel-block" id="frontVideoContainer" style="display: none;">
+                        <input type="file" id="frontVideo" class="input" accept="video/*">
+                    </div>
+                    <div class="panel-block" id="frontQrContainer" style="display: none;">
+                        <input type="text" id="frontQr" class="input" placeholder="Enter URL for QR code">
+                    </div>
+                </div>
 
-            <div id="frontPanel" class="panel">
-                <h3>Front</h3>
-                <div>
-                    <input type="radio" id="frontTextToggle" name="frontContent" value="text" checked>
-                    <label for="frontTextToggle">Text</label>
-                    <input type="radio" id="frontImageToggle" name="frontContent" value="image">
-                    <label for="frontImageToggle">Image</label>
-                    <input type="radio" id="frontVideoToggle" name="frontContent" value="video">
-                    <label for="frontVideoToggle">Video</label>
-                    <input type="radio" id="frontQrToggle" name="frontContent" value="qr">
-                    <label for="frontQrToggle">QR Code</label>
+                <div id="back-content" class="tab-content" style="display: none;">
+                    <div class="panel-block">
+                        <div class="control">
+                            <input type="radio" id="backTextToggle" name="backContent" value="text" checked>
+                            <label for="backTextToggle">Text</label>
+                            <input type="radio" id="backImageToggle" name="backContent" value="image">
+                            <label for="backImageToggle">Image</label>
+                            <input type="radio" id="backVideoToggle" name="backContent" value="video">
+                            <label for="backVideoToggle">Video</label>
+                            <input type="radio" id="backQrToggle" name="backContent" value="qr">
+                            <label for="backQrToggle">QR Code</label>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="backTextContainer">
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <input type="text" id="backText" class="input" placeholder="Enter text">
+                                </div>
+                                <div class="control">
+                                    <input type="color" id="backColor" class="input" value="#00ff00">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="backImageContainer" style="display: none;">
+                        <input type="file" id="backImage" class="input" accept="image/*">
+                    </div>
+                    <div class="panel-block" id="backVideoContainer" style="display: none;">
+                        <input type="file" id="backVideo" class="input" accept="video/*">
+                    </div>
+                    <div class="panel-block" id="backQrContainer" style="display: none;">
+                        <input type="text" id="backQr" class="input" placeholder="Enter URL for QR code">
+                    </div>
                 </div>
-                <div id="frontTextContainer">
-                    <input type="text" id="frontText" placeholder="Enter text">
-                    <label for="frontColor">Background:</label>
-                    <input type="color" id="frontColor" value="#ff0000">
-                </div>
-                <div id="frontImageContainer" style="display: none;">
-                    <input type="file" id="frontImage" accept="image/*">
-                </div>
-                <div id="frontVideoContainer" style="display: none;">
-                    <input type="file" id="frontVideo" accept="video/*">
-                </div>
-                <div id="frontQrContainer" style="display: none;">
-                    <input type="text" id="frontQr" placeholder="Enter URL for QR code">
-                </div>
-            </div>
 
-            <div id="backPanel" class="panel">
-                <h3>Back</h3>
-                <div>
-                    <input type="radio" id="backTextToggle" name="backContent" value="text" checked>
-                    <label for="backTextToggle">Text</label>
-                    <input type="radio" id="backImageToggle" name="backContent" value="image">
-                    <label for="backImageToggle">Image</label>
-                    <input type="radio" id="backVideoToggle" name="backContent" value="video">
-                    <label for="backVideoToggle">Video</label>
-                    <input type="radio" id="backQrToggle" name="backContent" value="qr">
-                    <label for="backQrToggle">QR Code</label>
+                <div id="top-content" class="tab-content" style="display: none;">
+                    <div class="panel-block">
+                        <div class="control">
+                            <input type="radio" id="topTextToggle" name="topContent" value="text" checked>
+                            <label for="topTextToggle">Text</label>
+                            <input type="radio" id="topImageToggle" name="topContent" value="image">
+                            <label for="topImageToggle">Image</label>
+                            <input type="radio" id="topVideoToggle" name="topContent" value="video">
+                            <label for="topVideoToggle">Video</label>
+                            <input type="radio" id="topQrToggle" name="topContent" value="qr">
+                            <label for="topQrToggle">QR Code</label>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="topTextContainer">
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <input type="text" id="topText" class="input" placeholder="Enter text">
+                                </div>
+                                <div class="control">
+                                    <input type="color" id="topColor" class="input" value="#0000ff">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="topImageContainer" style="display: none;">
+                        <input type="file" id="topImage" class="input" accept="image/*">
+                    </div>
+                    <div class="panel-block" id="topVideoContainer" style="display: none;">
+                        <input type="file" id="topVideo" class="input" accept="video/*">
+                    </div>
+                    <div class="panel-block" id="topQrContainer" style="display: none;">
+                        <input type="text" id="topQr" class="input" placeholder="Enter URL for QR code">
+                    </div>
                 </div>
-                <div id="backTextContainer">
-                    <input type="text" id="backText" placeholder="Enter text">
-                    <label for="backColor">Background:</label>
-                    <input type="color" id="backColor" value="#00ff00">
-                </div>
-                <div id="backImageContainer" style="display: none;">
-                    <input type="file" id="backImage" accept="image/*">
-                </div>
-                <div id="backVideoContainer" style="display: none;">
-                    <input type="file" id="backVideo" accept="video/*">
-                </div>
-                <div id="backQrContainer" style="display: none;">
-                    <input type="text" id="backQr" placeholder="Enter URL for QR code">
-                </div>
-            </div>
 
-            <div id="topPanel" class="panel">
-                <h3>Top</h3>
-                <div>
-                    <input type="radio" id="topTextToggle" name="topContent" value="text" checked>
-                    <label for="topTextToggle">Text</label>
-                    <input type="radio" id="topImageToggle" name="topContent" value="image">
-                    <label for="topImageToggle">Image</label>
-                    <input type="radio" id="topVideoToggle" name="topContent" value="video">
-                    <label for="topVideoToggle">Video</label>
-                    <input type="radio" id="topQrToggle" name="topContent" value="qr">
-                    <label for="topQrToggle">QR Code</label>
+                <div id="bottom-content" class="tab-content" style="display: none;">
+                    <div class="panel-block">
+                        <div class="control">
+                            <input type="radio" id="bottomTextToggle" name="bottomContent" value="text" checked>
+                            <label for="bottomTextToggle">Text</label>
+                            <input type="radio" id="bottomImageToggle" name="bottomContent" value="image">
+                            <label for="bottomImageToggle">Image</label>
+                            <input type="radio" id="bottomVideoToggle" name="bottomContent" value="video">
+                            <label for="bottomVideoToggle">Video</label>
+                            <input type="radio" id="bottomQrToggle" name="bottomContent" value="qr">
+                            <label for="bottomQrToggle">QR Code</label>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="bottomTextContainer">
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <input type="text" id="bottomText" class="input" placeholder="Enter text">
+                                </div>
+                                <div class="control">
+                                    <input type="color" id="bottomColor" class="input" value="#ffff00">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="bottomImageContainer" style="display: none;">
+                        <input type="file" id="bottomImage" class="input" accept="image/*">
+                    </div>
+                    <div class="panel-block" id="bottomVideoContainer" style="display: none;">
+                        <input type="file" id="bottomVideo" class="input" accept="video/*">
+                    </div>
+                    <div class="panel-block" id="bottomQrContainer" style="display: none;">
+                        <input type="text" id="bottomQr" class="input" placeholder="Enter URL for QR code">
+                    </div>
                 </div>
-                <div id="topTextContainer">
-                    <input type="text" id="topText" placeholder="Enter text">
-                    <label for="topColor">Background:</label>
-                    <input type="color" id="topColor" value="#0000ff">
-                </div>
-                <div id="topImageContainer" style="display: none;">
-                    <input type="file" id="topImage" accept="image/*">
-                </div>
-                <div id="topVideoContainer" style="display: none;">
-                    <input type="file" id="topVideo" accept="video/*">
-                </div>
-                <div id="topQrContainer" style="display: none;">
-                    <input type="text" id="topQr" placeholder="Enter URL for QR code">
-                </div>
-            </div>
 
-            <div id="bottomPanel" class="panel">
-                <h3>Bottom</h3>
-                <div>
-                    <input type="radio" id="bottomTextToggle" name="bottomContent" value="text" checked>
-                    <label for="bottomTextToggle">Text</label>
-                    <input type="radio" id="bottomImageToggle" name="bottomContent" value="image">
-                    <label for="bottomImageToggle">Image</label>
-                    <input type="radio" id="bottomVideoToggle" name="bottomContent" value="video">
-                    <label for="bottomVideoToggle">Video</label>
-                    <input type="radio" id="bottomQrToggle" name="bottomContent" value="qr">
-                    <label for="bottomQrToggle">QR Code</label>
+                <div id="right-content" class="tab-content" style="display: none;">
+                    <div class="panel-block">
+                        <div class="control">
+                            <input type="radio" id="rightTextToggle" name="rightContent" value="text" checked>
+                            <label for="rightTextToggle">Text</label>
+                            <input type="radio" id="rightImageToggle" name="rightContent" value="image">
+                            <label for="rightImageToggle">Image</label>
+                            <input type="radio" id="rightVideoToggle" name="rightContent" value="video">
+                            <label for="rightVideoToggle">Video</label>
+                            <input type="radio" id="rightQrToggle" name="rightContent" value="qr">
+                            <label for="rightQrToggle">QR Code</label>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="rightTextContainer">
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <input type="text" id="rightText" class="input" placeholder="Enter text">
+                                </div>
+                                <div class="control">
+                                    <input type="color" id="rightColor" class="input" value="#00ffff">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="rightImageContainer" style="display: none;">
+                        <input type="file" id="rightImage" class="input" accept="image/*">
+                    </div>
+                    <div class="panel-block" id="rightVideoContainer" style="display: none;">
+                        <input type="file" id="rightVideo" class="input" accept="video/*">
+                    </div>
+                    <div class="panel-block" id="rightQrContainer" style="display: none;">
+                        <input type="text" id="rightQr" class="input" placeholder="Enter URL for QR code">
+                    </div>
                 </div>
-                <div id="bottomTextContainer">
-                    <input type="text" id="bottomText" placeholder="Enter text">
-                    <label for="bottomColor">Background:</label>
-                    <input type="color" id="bottomColor" value="#ffff00">
-                </div>
-                <div id="bottomImageContainer" style="display: none;">
-                    <input type="file" id="bottomImage" accept="image/*">
-                </div>
-                <div id="bottomVideoContainer" style="display: none;">
-                    <input type="file" id="bottomVideo" accept="video/*">
-                </div>
-                <div id="bottomQrContainer" style="display: none;">
-                    <input type="text" id="bottomQr" placeholder="Enter URL for QR code">
-                </div>
-            </div>
 
-            <div id="rightPanel" class="panel">
-                <h3>Right</h3>
-                <div>
-                    <input type="radio" id="rightTextToggle" name="rightContent" value="text" checked>
-                    <label for="rightTextToggle">Text</label>
-                    <input type="radio" id="rightImageToggle" name="rightContent" value="image">
-                    <label for="rightImageToggle">Image</label>
-                    <input type="radio" id="rightVideoToggle" name="rightContent" value="video">
-                    <label for="rightVideoToggle">Video</label>
-                    <input type="radio" id="rightQrToggle" name="rightContent" value="qr">
-                    <label for="rightQrToggle">QR Code</label>
-                </div>
-                <div id="rightTextContainer">
-                    <input type="text" id="rightText" placeholder="Enter text">
-                    <label for="rightColor">Background:</label>
-                    <input type="color" id="rightColor" value="#00ffff">
-                </div>
-                <div id="rightImageContainer" style="display: none;">
-                    <input type="file" id="rightImage" accept="image/*">
-                </div>
-                <div id="rightVideoContainer" style="display: none;">
-                    <input type="file" id="rightVideo" accept="video/*">
-                </div>
-                <div id="rightQrContainer" style="display: none;">
-                    <input type="text" id="rightQr" placeholder="Enter URL for QR code">
-                </div>
-            </div>
-
-            <div id="leftPanel" class="panel">
-                <h3>Left</h3>
-                <div>
-                    <input type="radio" id="leftTextToggle" name="leftContent" value="text" checked>
-                    <label for="leftTextToggle">Text</label>
-                    <input type="radio" id="leftImageToggle" name="leftContent" value="image">
-                    <label for="leftImageToggle">Image</label>
-                    <input type="radio" id="leftVideoToggle" name="leftContent" value="video">
-                    <label for="leftVideoToggle">Video</label>
-                    <input type="radio" id="leftQrToggle" name="leftContent" value="qr">
-                    <label for="leftQrToggle">QR Code</label>
-                </div>
-                <div id="leftTextContainer">
-                    <input type="text" id="leftText" placeholder="Enter text">
-                    <label for="leftColor">Background:</label>
-                    <input type="color" id="leftColor" value="#ff00ff">
-                </div>
-                <div id="leftImageContainer" style="display: none;">
-                    <input type="file" id="leftImage" accept="image/*">
-                </div>
-                <div id="leftVideoContainer" style="display: none;">
-                    <input type="file" id="leftVideo" accept="video/*">
-                </div>
-                <div id="leftQrContainer" style="display: none;">
-                    <input type="text" id="leftQr" placeholder="Enter URL for QR code">
+                <div id="left-content" class="tab-content" style="display: none;">
+                    <div class="panel-block">
+                        <div class="control">
+                            <input type="radio" id="leftTextToggle" name="leftContent" value="text" checked>
+                            <label for="leftTextToggle">Text</label>
+                            <input type="radio" id="leftImageToggle" name="leftContent" value="image">
+                            <label for="leftImageToggle">Image</label>
+                            <input type="radio" id="leftVideoToggle" name="leftContent" value="video">
+                            <label for="leftVideoToggle">Video</label>
+                            <input type="radio" id="leftQrToggle" name="leftContent" value="qr">
+                            <label for="leftQrToggle">QR Code</label>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="leftTextContainer">
+                        <div class="field is-expanded">
+                            <div class="field has-addons">
+                                <div class="control is-expanded">
+                                    <input type="text" id="leftText" class="input" placeholder="Enter text">
+                                </div>
+                                <div class="control">
+                                    <input type="color" id="leftColor" class="input" value="#ff00ff">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-block" id="leftImageContainer" style="display: none;">
+                        <input type="file" id="leftImage" class="input" accept="image/*">
+                    </div>
+                    <div class="panel-block" id="leftVideoContainer" style="display: none;">
+                        <input type="file" id="leftVideo" class="input" accept="video/*">
+                    </div>
+                    <div class="panel-block" id="leftQrContainer" style="display: none;">
+                        <input type="text" id="leftQr" class="input" placeholder="Enter URL for QR code">
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div id="bottom-controls">
-            <div class="control-group">
-                <label>Rotate:</label>
-                <button id="rotateX90">X+90</button>
-                <button id="rotateX-90">X-90</button>
-                <button id="rotateY90">Y+90</button>
-                <button id="rotateY-90">Y-90</button>
-                <button id="rotateZ90">Z+90</button>
-                <button id="rotateZ-90">Z-90</button>
+        <div id="bottom-controls" class="box">
+            <div class="field">
+                <label class="label">Rotate</label>
+                <div class="control mb-2">
+                    <button id="rotateX90" class="button is-fullwidth">X+90</button>
+                </div>
+                <div class="control mb-2">
+                    <button id="rotateX-90" class="button is-fullwidth">X-90</button>
+                </div>
+                <div class="control mb-2">
+                    <button id="rotateY90" class="button is-fullwidth">Y+90</button>
+                </div>
+                <div class="control">
+                    <button id="rotateY-90" class="button is-fullwidth">Y-90</button>
+                </div>
             </div>
-            <div class="control-group">
-                <label>View:</label>
-                <button id="viewIsometric" class="view-button active">Isometric</button>
-                <button id="viewFlat" class="view-button">Flat</button>
+            <div class="field">
+                <label class="label">View</label>
+                <div class="control mb-2">
+                    <button id="viewIsometric" class="button view-button is-active is-fullwidth">Isometric</button>
+                </div>
+                <div class="control">
+                    <button id="viewFlat" class="button view-button is-fullwidth">Flat</button>
+                </div>
             </div>
         </div>
     </div>

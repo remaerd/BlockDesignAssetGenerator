@@ -9,9 +9,10 @@
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'IBM Plex Sans', sans-serif;
     background-color: #f0f0f0;
     color: #333;
+    font-size: 0.75rem;
 }
 
 #container {
@@ -26,61 +27,98 @@ body {
     height: 100%;
 }
 
-#controls {
+#toggleUiButton {
     position: absolute;
     top: 10px;
     right: 10px;
-    background: rgba(255, 255, 255, 0.8);
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    max-height: calc(100vh - 20px);
-    overflow-y: auto;
+    z-index: 10;
 }
 
-#controls > * {
-    margin-bottom: 10px;
-}
-
-button {
-    cursor: pointer;
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-}
-
-button:hover {
-    background-color: #eee;
-}
-
-input[type="file"] {
-    border: 1px solid #ccc;
-    padding: 5px;
-    border-radius: 4px;
-}
-
-#bottom-controls {
+#controls {
     position: absolute;
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.8);
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    gap: 20px;
-    align-items: center;
+    width: 80vw;
+    max-width: 900px;
 }
 
-.control-group {
-    display: flex;
-    align-items: center;
-    gap: 5px;
+#controls .box {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0;
 }
 
-.view-button.active {
+#controls .tabs {
+    margin-bottom: 0;
+}
+
+#controls .tabs li.is-bold a {
+    font-weight: bold;
+}
+
+#controls .tabs li.is-disabled {
+    pointer-events: none;
+    opacity: 0.25;
+}
+
+.panel-block {
+    border-bottom: none;
+}
+
+#bottom-controls {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    padding: 1rem;
+}
+
+.view-button.is-active {
     background-color: #ccc;
     font-weight: bold;
+}
+
+input[type="color"] {
+    min-width: 40px;
+    padding: 0.25rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #f5f5f5;
+    }
+
+    #controls .box, #bottom-controls {
+        background: rgba(40, 40, 40, 0.9);
+        color: #f5f5f5;
+    }
+
+    .input, .button {
+        background-color: #333;
+        color: #f5f5f5;
+        border-color: #555;
+    }
+
+    .input::placeholder {
+        color: #aaa;
+    }
+
+    .button.is-active, .view-button.is-active {
+        background-color: #555;
+        font-weight: bold;
+    }
+
+    .tabs li a {
+        color: #f5f5f5;
+    }
+
+    .tabs li.is-active a {
+        color: #485fc7;
+    }
+
+    .label {
+        color: #f5f5f5;
+    }
 }
