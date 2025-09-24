@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { createScene } from './scene.js';
 import { createCube } from './cube.js';
+import gsap from 'gsap';
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('canvas');
@@ -78,44 +79,68 @@ document.addEventListener('DOMContentLoaded', () => {
     const rotateY_90 = document.getElementById('rotateY-90');
     const rotateZ90 = document.getElementById('rotateZ90');
     const rotateZ_90 = document.getElementById('rotateZ-90');
-    const viewModeSelect = document.getElementById('viewMode');
-    const flatViewFaceSelect = document.getElementById('flatViewFace');
+    const viewIsometric = document.getElementById('viewIsometric');
+    const viewFlat = document.getElementById('viewFlat');
 
     const PI_HALF = Math.PI / 2;
+    const rotationDuration = 0.5;
 
-    rotateX90.addEventListener('click', () => cube.rotation.x += PI_HALF);
-    rotateX_90.addEventListener('click', () => cube.rotation.x -= PI_HALF);
-    rotateY90.addEventListener('click', () => cube.rotation.y += PI_HALF);
-    rotateY_90.addEventListener('click', () => cube.rotation.y -= PI_HALF);
-    rotateZ90.addEventListener('click', () => cube.rotation.z += PI_HALF);
-    rotateZ_90.addEventListener('click', () => cube.rotation.z -= PI_HALF);
+    rotateX90.addEventListener('click', () => gsap.to(cube.rotation, { x: cube.rotation.x + PI_HALF, duration: rotationDuration, ease: 'power4.inOut' }));
+    rotateX_90.addEventListener('click', () => gsap.to(cube.rotation, { x: cube.rotation.x - PI_HALF, duration: rotationDuration, ease: 'power4.inOut' }));
+    rotateY90.addEventListener('click', () => gsap.to(cube.rotation, { y: cube.rotation.y + PI_HALF, duration: rotationDuration, ease: 'power4.inOut' }));
+    rotateY_90.addEventListener('click', () => gsap.to(cube.rotation, { y: cube.rotation.y - PI_HALF, duration: rotationDuration, ease: 'power4.inOut' }));
+    rotateZ90.addEventListener('click', () => gsap.to(cube.rotation, { z: cube.rotation.z + PI_HALF, duration: rotationDuration, ease: 'power4.inOut' }));
+    rotateZ_90.addEventListener('click', () => gsap.to(cube.rotation, { z: cube.rotation.z - PI_HALF, duration: rotationDuration, ease: 'power4.inOut' }));
 
-    function setView() {
-        const viewMode = viewModeSelect.value;
-        const face = flatViewFaceSelect.value;
+    let currentViewMode = 'isometric';
+    const flatViewFaces = ['front', 'back', 'top', 'bottom', 'right', 'left'];
+    let flatViewFaceIndex = 0;
+
+    function setView(viewMode, face) {
+        currentViewMode = viewMode;
+        const viewChangeDuration = 0.7;
+        const ease = 'power4.inOut';
+
+        const onUpdate = () => camera.lookAt(scene.position);
 
         if (viewMode === 'isometric') {
-            flatViewFaceSelect.style.display = 'none';
-            camera.position.set(20, 20, 20);
-            cube.rotation.set(0, 0, 0);
+            gsap.to(camera.position, { x: 20, y: 20, z: 20, duration: viewChangeDuration, ease, onUpdate });
+            gsap.to(cube.rotation, { x: 0, y: 0, z: 0, duration: viewChangeDuration, ease });
+            viewIsometric.classList.add('active');
+            viewFlat.classList.remove('active');
         } else { // 2D Flat view
-            flatViewFaceSelect.style.display = 'inline-block';
-            cube.rotation.set(0, 0, 0);
+            gsap.to(cube.rotation, { x: 0, y: 0, z: 0, duration: viewChangeDuration, ease });
             const distance = 15;
+            let targetPosition = { x: 0, y: 0, z: 0 };
             switch (face) {
-                case 'front': camera.position.set(0, 0, distance); break;
-                case 'back': camera.position.set(0, 0, -distance); break;
-                case 'top': camera.position.set(0, distance, 0); break;
-                case 'bottom': camera.position.set(0, -distance, 0); break;
-                case 'right': camera.position.set(distance, 0, 0); break;
-                case 'left': camera.position.set(-distance, 0, 0); break;
+                case 'front': targetPosition = { x: 0, y: 0, z: distance }; break;
+                case 'back': targetPosition = { x: 0, y: 0, z: -distance }; break;
+                case 'top': targetPosition = { x: 0, y: distance, z: 0 }; break;
+                case 'bottom': targetPosition = { x: 0, y: -distance, z: 0 }; break;
+                case 'right': targetPosition = { x: distance, y: 0, z: 0 }; break;
+                case 'left': targetPosition = { x: -distance, y: 0, z: 0 }; break;
             }
+            gsap.to(camera.position, { ...targetPosition, duration: viewChangeDuration, ease, onUpdate });
+            viewIsometric.classList.remove('active');
+            viewFlat.classList.add('active');
         }
-        camera.lookAt(scene.position);
     }
 
-    viewModeSelect.addEventListener('change', setView);
-    flatViewFaceSelect.addEventListener('change', setView);
+    viewIsometric.addEventListener('click', () => {
+        if (currentViewMode !== 'isometric') {
+            setView('isometric');
+        }
+    });
+
+    viewFlat.addEventListener('click', () => {
+        if (currentViewMode !== 'flat') {
+            flatViewFaceIndex = 0;
+            setView('flat', flatViewFaces[flatViewFaceIndex]);
+        } else {
+            flatViewFaceIndex = (flatViewFaceIndex + 1) % flatViewFaces.length;
+            setView('flat', flatViewFaces[flatViewFaceIndex]);
+        }
+    });
 
     const textInputs = {
         front: document.getElementById('frontText'),

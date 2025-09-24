@@ -79,3 +79,8 @@ input[type="file"] {
     align-items: center;
     gap: 5px;
 }
+
+.view-button.active {
+    background-color: #ccc;
+    font-weight: bold;
+}

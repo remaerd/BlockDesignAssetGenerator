@@ -164,18 +164,8 @@
             </div>
             <div class="control-group">
                 <label>View:</label>
-                <select id="viewMode">
-                    <option value="isometric" selected>Isometric</option>
-                    <option value="2d">2D Flat</option>
-                </select>
-                <select id="flatViewFace" style="display: none;">
-                    <option value="front">Front</option>
-                    <option value="back">Back</option>
-                    <option value="top">Top</option>
-                    <option value="bottom">Bottom</option>
-                    <option value="right">Right</option>
-                    <option value="left">Left</option>
-                </select>
+                <button id="viewIsometric" class="view-button active">Isometric</button>
+                <button id="viewFlat" class="view-button">Flat</button>
             </div>
         </div>
     </div>
@@ -184,6 +174,7 @@
         {
             "imports": {
                 "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.min.js",
+                "gsap": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/index.js",
                 "three/examples/jsm/lines/LineSegmentsGeometry.js": "https://unpkg.com/three@0.128.0/examples/jsm/lines/LineSegmentsGeometry.js",
                 "three/examples/jsm/lines/LineGeometry.js": "https://unpkg.com/three@0.128.0/examples/jsm/lines/LineGeometry.js",
                 "three/examples/jsm/lines/LineMaterial.js": "https://unpkg.com/three@0.128.0/examples/jsm/lines/LineMaterial.js",
