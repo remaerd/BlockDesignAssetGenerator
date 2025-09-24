@@ -17,6 +17,10 @@ export class MainPanel {
             '#c0b8d1', '#a69eb1', '#8c8491', '#726a71', '#585051', '#3e3631',
             '#e21e26', '#ffffff', '#000000',
         ];
+        this.stockImages = [
+            'assets/images/UWE_Web_Avatar_Bottom-24.png',
+            'assets/images/UWE_Web_Avatar_Top-24.png'
+        ];
 
         this.initialize();
     }
@@ -25,6 +29,7 @@ export class MainPanel {
         this.setupTabs();
         this.setupContentToggles();
         this.setupInputListeners();
+        this.setupImageGalleries();
     }
 
     setupTabs() {
@@ -62,23 +67,32 @@ export class MainPanel {
     }
 
     setupContentToggles() {
-        for (const face in this.faceMapping) {
-            const toggles = document.querySelectorAll(`input[name="${face}Content"]`);
-            const containers = {
-                text: document.getElementById(`${face}TextContainer`),
-                image: document.getElementById(`${face}ImageContainer`),
-                video: document.getElementById(`${face}VideoContainer`),
-                qr: document.getElementById(`${face}QrContainer`),
-            };
-            toggles.forEach(toggle => {
-                toggle.addEventListener('change', (e) => {
-                    const contentType = e.target.value;
-                    for (const type in containers) {
-                        containers[type].style.display = type === contentType ? 'block' : 'none';
-                    }
+        const contentToggles = document.querySelectorAll('.content-toggle');
+
+        contentToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const face = toggle.dataset.face;
+                const type = toggle.dataset.type;
+
+                // Update button active state
+                document.querySelectorAll(`.content-toggle[data-face="${face}"]`).forEach(btn => {
+                    btn.classList.remove('is-active');
                 });
+                toggle.classList.add('is-active');
+
+                // Update container visibility
+                const containers = {
+                    text: document.getElementById(`${face}TextContainer`),
+                    image: document.getElementById(`${face}ImageContainer`),
+                    video: document.getElementById(`${face}VideoContainer`),
+                    qr: document.getElementById(`${face}QrContainer`),
+                };
+
+                for (const containerType in containers) {
+                    containers[containerType].style.display = containerType === type ? 'block' : 'none';
+                }
             });
-        }
+        });
     }
 
     setupInputListeners() {
@@ -89,8 +103,7 @@ export class MainPanel {
             this.createColorDropdown(face);
             this.textInputs[face].addEventListener('input', () => this.handleTextUpdate(face));
 
-            // Image
-            document.getElementById(`${face}Image`).addEventListener('change', (e) => this.handleImageUpdate(face, e.target.files[0]));
+            // Image listener is now in setupImageGalleries
 
             // Video
             document.getElementById(`${face}Video`).addEventListener('change', (e) => this.handleVideoUpdate(face, e.target.files[0]));
@@ -113,12 +126,34 @@ export class MainPanel {
         });
     }
 
+    setupImageGalleries() {
+        for (const face in this.faceMapping) {
+            const gallery = document.getElementById(`${face}ImageGallery`);
+            
+            // Add stock images
+            this.stockImages.forEach(imageUrl => {
+                const img = document.createElement('img');
+                img.src = imageUrl;
+                img.addEventListener('click', () => this.handleImageUpdate(face, imageUrl));
+                gallery.appendChild(img);
+            });
+
+            // Setup upload button
+            const uploadInput = gallery.querySelector('.image-upload-input');
+            uploadInput.addEventListener('change', (e) => {
+                if (e.target.files && e.target.files[0]) {
+                    this.handleImageUpdate(face, e.target.files[0]);
+                }
+            });
+        }
+    }
+
     handleTextUpdate(face) {
         const faceIndex = this.faceMapping[face];
         const content = this.textInputs[face].value;
         const color = this.colorInputs[face].value;
         
-        const textCanvas = this.createTextCanvas(content, color);
+        const textCanvas = this.cubeManager.createTextCanvas(content, color);
         const texture = new THREE.CanvasTexture(textCanvas);
         texture.minFilter = THREE.LinearFilter;
         texture.magFilter = THREE.LinearFilter;
@@ -126,47 +161,25 @@ export class MainPanel {
         this.cubeManager.updateFaceMaterial(faceIndex, material);
     }
 
-    createTextCanvas(content, color) {
-        const canvas = document.createElement('canvas');
-        canvas.width = 512;
-        canvas.height = 512;
-        const context = canvas.getContext('2d');
-
-        context.fillStyle = color;
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        context.fillStyle = this.sceneManager.scene.background.getStyle();
-        context.font = '64pt Helvetica';
-        context.textAlign = 'left';
-        context.textBaseline = 'top';
-
-        if (content.trim() !== '') {
-            const padding = 40, lineHeight = 74, x = padding, maxWidth = canvas.width - (padding * 2);
-            let line = '', y = padding;
-            const words = content.split(' ');
-            for (let n = 0; n < words.length; n++) {
-                const testLine = line + words[n] + ' ';
-                if (context.measureText(testLine).width > maxWidth && n > 0) {
-                    context.fillText(line, x, y);
-                    line = words[n] + ' ';
-                    y += lineHeight;
-                } else {
-                    line = testLine;
-                }
-            }
-            context.fillText(line, x, y);
+    handleImageUpdate(face, imageSource) {
+        let url;
+        if (typeof imageSource === 'string') {
+            url = imageSource;
+        } else if (imageSource instanceof File) {
+            if (!imageSource) return;
+            url = URL.createObjectURL(imageSource);
+        } else {
+            return;
         }
-        return canvas;
-    }
 
-    handleImageUpdate(face, file) {
-        if (!file) return;
-        const url = URL.createObjectURL(file);
         const textureLoader = new THREE.TextureLoader();
         textureLoader.load(url, (texture) => {
             texture.minFilter = THREE.LinearFilter;
             const material = new THREE.MeshBasicMaterial({ map: texture });
             this.cubeManager.updateFaceMaterial(this.faceMapping[face], material);
-            URL.revokeObjectURL(url);
+            if (imageSource instanceof File) {
+                URL.revokeObjectURL(url);
+            }
         });
     }
 
@@ -195,13 +208,7 @@ export class MainPanel {
         qrCanvas.height = 512;
         const context = qrCanvas.getContext('2d');
 
-        const getContrastingTextColor = (hex) => {
-            if (hex.startsWith('#')) hex = hex.slice(1);
-            const r = parseInt(hex.substring(0, 2), 16), g = parseInt(hex.substring(2, 4), 16), b = parseInt(hex.substring(4, 6), 16);
-            const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-            return (yiq >= 128) ? '#000000' : '#ffffff';
-        };
-        const qrColor = getContrastingTextColor(color);
+        const qrColor = this.cubeManager.getContrastingTextColor(color);
 
         if (url.trim() !== '') {
             const tempQrContainer = document.createElement('div');

@@ -90,17 +90,21 @@ export class SidePanel {
         const colsInput = document.getElementById('replicationCols');
         const gapInput = document.getElementById('replicationGap');
 
-        const replicate = () => this.cubeManager.replicate(
+        const handleGridChange = () => this.cubeManager.replicate(
             parseInt(rowsInput.value),
-            parseInt(colsInput.value),
+            parseInt(colsInput.value)
+        );
+
+        const handleGapChange = () => this.cubeManager.updateLayout(
             parseFloat(gapInput.value)
         );
 
-        rowsInput.addEventListener('input', replicate);
-        colsInput.addEventListener('input', replicate);
-        gapInput.addEventListener('input', replicate);
+        rowsInput.addEventListener('input', handleGridChange);
+        colsInput.addEventListener('input', handleGridChange);
+        gapInput.addEventListener('input', handleGapChange);
 
-        replicate(); // Initial call
+        handleGridChange(); // Initial call
+        handleGapChange();
     }
 
     setupBackgroundColorPicker() {
@@ -115,21 +119,6 @@ export class SidePanel {
         new ColorPicker(dropdown, colorInput, colorPreview, this.paletteColors, (color) => {
             this.sceneManager.scene.background.set(color);
             this.cubeManager.strokes.forEach(stroke => stroke.material.color.set(color));
-            
-            // This part is tricky as it couples UI panels. A better solution would be an event bus.
-            // For now, we manually re-trigger text updates.
-            document.querySelectorAll('#main-panel .input[type="text"]').forEach(input => {
-                if (input.value) input.dispatchEvent(new Event('input'));
-            });
-
-            dropdownContent.appendChild(swatchContainer);
-
-            dropdown.querySelector('.dropdown-trigger button').addEventListener('click', () => 
-              dropdown.classList.toggle('is-active'));
-              document.addEventListener('click', (event) => 
-              {
-                if (!dropdown.contains(event.target)) dropdown.classList.remove('is-active');
-              });
         });
     }
 }

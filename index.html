@@ -6,6 +6,7 @@
     <title>Block Design / Brand Asset Generator / School of Computing and Creative Technologies / University of the West of England</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://use.typekit.net/bmr1deh.css">
     <link rel="stylesheet" href="css/style.css" id="main-stylesheet">
 </head>
 <body>
@@ -30,26 +31,14 @@
 
                 <div id="front-content" class="tab-content">
                     <div class="panel-block">
-                        <div class="field is-grouped is-grouped-multiline">
-                            <div class="control">
-                                <input type="radio" id="frontTextToggle" name="frontContent" value="text" checked>
-                                <label for="frontTextToggle">Text</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="frontImageToggle" name="frontContent" value="image">
-                                <label for="frontImageToggle">Image</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="frontVideoToggle" name="frontContent" value="video">
-                                <label for="frontVideoToggle">Video</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="frontQrToggle" name="frontContent" value="qr">
-                                <label for="frontQrToggle">QR Code</label>
-                            </div>
+                        <div class="field has-addons">
+                            <p class="control"><button class="button content-toggle" data-face="front" data-type="text"><span class="icon is-small"><i class="fas fa-font"></i></span><span>Text</span></button></p>
+                            <p class="control"><button class="button content-toggle is-active" data-face="front" data-type="image"><span class="icon is-small"><i class="fas fa-image"></i></span><span>Image</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="front" data-type="video"><span class="icon is-small"><i class="fas fa-video"></i></span><span>Video</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="front" data-type="qr"><span class="icon is-small"><i class="fas fa-qrcode"></i></span><span>QR Code</span></button></p>
                         </div>
                     </div>
-                    <div class="panel-block" id="frontTextContainer">
+                    <div class="panel-block" id="frontTextContainer" style="display: none;">
                         <div class="field is-expanded">
                             <div class="field has-addons">
                                 <div class="control is-expanded">
@@ -72,8 +61,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel-block" id="frontImageContainer" style="display: none;">
-                        <input type="file" id="frontImage" class="input" accept="image/*">
+                    <div class="panel-block" id="frontImageContainer">
+                        <div id="frontImageGallery" class="image-gallery">
+                            <label class="button image-upload-button">
+                                <span class="icon is-big"><i class="fas fa-add"></i></span>
+                                <input type="file" class="image-upload-input" accept="image/*">
+                            </label>
+                        </div>
                     </div>
                     <div class="panel-block" id="frontVideoContainer" style="display: none;">
                         <input type="file" id="frontVideo" class="input" accept="video/*">
@@ -85,23 +79,11 @@
 
                 <div id="back-content" class="tab-content" style="display: none;">
                     <div class="panel-block">
-                        <div class="field is-grouped is-grouped-multiline">
-                            <div class="control">
-                                <input type="radio" id="backTextToggle" name="backContent" value="text" checked>
-                                <label for="backTextToggle">Text</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="backImageToggle" name="backContent" value="image">
-                                <label for="backImageToggle">Image</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="backVideoToggle" name="backContent" value="video">
-                                <label for="backVideoToggle">Video</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="backQrToggle" name="backContent" value="qr">
-                                <label for="backQrToggle">QR Code</label>
-                            </div>
+                        <div class="field has-addons">
+                            <p class="control"><button class="button content-toggle is-active" data-face="back" data-type="text"><span class="icon is-small"><i class="fas fa-font"></i></span><span>Text</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="back" data-type="image"><span class="icon is-small"><i class="fas fa-image"></i></span><span>Image</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="back" data-type="video"><span class="icon is-small"><i class="fas fa-video"></i></span><span>Video</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="back" data-type="qr"><span class="icon is-small"><i class="fas fa-qrcode"></i></span><span>QR Code</span></button></p>
                         </div>
                     </div>
                     <div class="panel-block" id="backTextContainer">
@@ -128,7 +110,12 @@
                         </div>
                     </div>
                     <div class="panel-block" id="backImageContainer" style="display: none;">
-                        <input type="file" id="backImage" class="input" accept="image/*">
+                        <div id="backImageGallery" class="image-gallery">
+                            <label class="button image-upload-button">
+                                <span class="icon is-small"><i class="fas fa-upload"></i></span>
+                                <input type="file" class="image-upload-input" accept="image/*">
+                            </label>
+                        </div>
                     </div>
                     <div class="panel-block" id="backVideoContainer" style="display: none;">
                         <input type="file" id="backVideo" class="input" accept="video/*">
@@ -140,30 +127,18 @@
 
                 <div id="top-content" class="tab-content" style="display: none;">
                     <div class="panel-block">
-                        <div class="field is-grouped is-grouped-multiline">
-                            <div class="control">
-                                <input type="radio" id="topTextToggle" name="topContent" value="text" checked>
-                                <label for="topTextToggle">Text</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="topImageToggle" name="topContent" value="image">
-                                <label for="topImageToggle">Image</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="topVideoToggle" name="topContent" value="video">
-                                <label for="topVideoToggle">Video</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="topQrToggle" name="topContent" value="qr">
-                                <label for="topQrToggle">QR Code</label>
-                            </div>
+                        <div class="field has-addons">
+                            <p class="control"><button class="button content-toggle is-active" data-face="top" data-type="text"><span class="icon is-small"><i class="fas fa-font"></i></span><span>Text</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="top" data-type="image"><span class="icon is-small"><i class="fas fa-image"></i></span><span>Image</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="top" data-type="video"><span class="icon is-small"><i class="fas fa-video"></i></span><span>Video</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="top" data-type="qr"><span class="icon is-small"><i class="fas fa-qrcode"></i></span><span>QR Code</span></button></p>
                         </div>
                     </div>
                     <div class="panel-block" id="topTextContainer">
                         <div class="field is-expanded">
                             <div class="field has-addons">
                                 <div class="control is-expanded">
-                                    <input type="text" id="topText" class="input" placeholder="Enter text">
+                                    <input type="text" id="topText" class="input" placeholder="Enter text" value="School of Computing and Creative Technologies">
                                 </div>
                                 <div class="control">
                                     <div id="topColorDropdown" class="dropdown is-up">
@@ -183,7 +158,12 @@
                         </div>
                     </div>
                     <div class="panel-block" id="topImageContainer" style="display: none;">
-                        <input type="file" id="topImage" class="input" accept="image/*">
+                        <div id="topImageGallery" class="image-gallery">
+                            <label class="button image-upload-button">
+                                <span class="icon is-small"><i class="fas fa-upload"></i></span>
+                                <input type="file" class="image-upload-input" accept="image/*">
+                            </label>
+                        </div>
                     </div>
                     <div class="panel-block" id="topVideoContainer" style="display: none;">
                         <input type="file" id="topVideo" class="input" accept="video/*">
@@ -195,23 +175,11 @@
 
                 <div id="bottom-content" class="tab-content" style="display: none;">
                     <div class="panel-block">
-                        <div class="field is-grouped is-grouped-multiline">
-                            <div class="control">
-                                <input type="radio" id="bottomTextToggle" name="bottomContent" value="text" checked>
-                                <label for="bottomTextToggle">Text</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="bottomImageToggle" name="bottomContent" value="image">
-                                <label for="bottomImageToggle">Image</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="bottomVideoToggle" name="bottomContent" value="video">
-                                <label for="bottomVideoToggle">Video</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="bottomQrToggle" name="bottomContent" value="qr">
-                                <label for="bottomQrToggle">QR Code</label>
-                            </div>
+                        <div class="field has-addons">
+                            <p class="control"><button class="button content-toggle is-active" data-face="bottom" data-type="text"><span class="icon is-small"><i class="fas fa-font"></i></span><span>Text</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="bottom" data-type="image"><span class="icon is-small"><i class="fas fa-image"></i></span><span>Image</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="bottom" data-type="video"><span class="icon is-small"><i class="fas fa-video"></i></span><span>Video</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="bottom" data-type="qr"><span class="icon is-small"><i class="fas fa-qrcode"></i></span><span>QR Code</span></button></p>
                         </div>
                     </div>
                     <div class="panel-block" id="bottomTextContainer">
@@ -238,7 +206,12 @@
                         </div>
                     </div>
                     <div class="panel-block" id="bottomImageContainer" style="display: none;">
-                        <input type="file" id="bottomImage" class="input" accept="image/*">
+                        <div id="bottomImageGallery" class="image-gallery">
+                            <label class="button image-upload-button">
+                                <span class="icon is-small"><i class="fas fa-upload"></i></span>
+                                <input type="file" class="image-upload-input" accept="image/*">
+                            </label>
+                        </div>
                     </div>
                     <div class="panel-block" id="bottomVideoContainer" style="display: none;">
                         <input type="file" id="bottomVideo" class="input" accept="video/*">
@@ -250,30 +223,18 @@
 
                 <div id="right-content" class="tab-content" style="display: none;">
                     <div class="panel-block">
-                        <div class="field is-grouped is-grouped-multiline">
-                            <div class="control">
-                                <input type="radio" id="rightTextToggle" name="rightContent" value="text" checked>
-                                <label for="rightTextToggle">Text</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="rightImageToggle" name="rightContent" value="image">
-                                <label for="rightImageToggle">Image</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="rightVideoToggle" name="rightContent" value="video">
-                                <label for="rightVideoToggle">Video</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="rightQrToggle" name="rightContent" value="qr">
-                                <label for="rightQrToggle">QR Code</label>
-                            </div>
+                        <div class="field has-addons">
+                            <p class="control"><button class="button content-toggle is-active" data-face="right" data-type="text"><span class="icon is-small"><i class="fas fa-font"></i></span><span>Text</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="right" data-type="image"><span class="icon is-small"><i class="fas fa-image"></i></span><span>Image</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="right" data-type="video"><span class="icon is-small"><i class="fas fa-video"></i></span><span>Video</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="right" data-type="qr"><span class="icon is-small"><i class="fas fa-qrcode"></i></span><span>QR Code</span></button></p>
                         </div>
                     </div>
                     <div class="panel-block" id="rightTextContainer">
                         <div class="field is-expanded">
                             <div class="field has-addons">
                                 <div class="control is-expanded">
-                                    <input type="text" id="rightText" class="input" placeholder="Enter text">
+                                    <input type="text" id="rightText" class="input" placeholder="Enter text" value="University of the West of England">
                                 </div>
                                 <div class="control">
                                     <div id="rightColorDropdown" class="dropdown is-up">
@@ -293,7 +254,12 @@
                         </div>
                     </div>
                     <div class="panel-block" id="rightImageContainer" style="display: none;">
-                        <input type="file" id="rightImage" class="input" accept="image/*">
+                        <div id="rightImageGallery" class="image-gallery">
+                            <label class="button image-upload-button">
+                                <span class="icon is-small"><i class="fas fa-upload"></i></span>
+                                <input type="file" class="image-upload-input" accept="image/*">
+                            </label>
+                        </div>
                     </div>
                     <div class="panel-block" id="rightVideoContainer" style="display: none;">
                         <input type="file" id="rightVideo" class="input" accept="video/*">
@@ -305,23 +271,11 @@
 
                 <div id="left-content" class="tab-content" style="display: none;">
                     <div class="panel-block">
-                        <div class="field is-grouped is-grouped-multiline">
-                            <div class="control">
-                                <input type="radio" id="leftTextToggle" name="leftContent" value="text" checked>
-                                <label for="leftTextToggle">Text</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="leftImageToggle" name="leftContent" value="image">
-                                <label for="leftImageToggle">Image</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="leftVideoToggle" name="leftContent" value="video">
-                                <label for="leftVideoToggle">Video</label>
-                            </div>
-                            <div class="control">
-                                <input type="radio" id="leftQrToggle" name="leftContent" value="qr">
-                                <label for="leftQrToggle">QR Code</label>
-                            </div>
+                        <div class="field has-addons">
+                            <p class="control"><button class="button content-toggle is-active" data-face="left" data-type="text"><span class="icon is-small"><i class="fas fa-font"></i></span><span>Text</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="left" data-type="image"><span class="icon is-small"><i class="fas fa-image"></i></span><span>Image</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="left" data-type="video"><span class="icon is-small"><i class="fas fa-video"></i></span><span>Video</span></button></p>
+                            <p class="control"><button class="button content-toggle" data-face="left" data-type="qr"><span class="icon is-small"><i class="fas fa-qrcode"></i></span><span>QR Code</span></button></p>
                         </div>
                     </div>
                     <div class="panel-block" id="leftTextContainer">
@@ -348,7 +302,12 @@
                         </div>
                     </div>
                     <div class="panel-block" id="leftImageContainer" style="display: none;">
-                        <input type="file" id="leftImage" class="input" accept="image/*">
+                        <div id="leftImageGallery" class="image-gallery">
+                            <label class="button image-upload-button">
+                                <span class="icon is-small"><i class="fas fa-upload"></i></span>
+                                <input type="file" class="image-upload-input" accept="image/*">
+                            </label>
+                        </div>
                     </div>
                     <div class="panel-block" id="leftVideoContainer" style="display: none;">
                         <input type="file" id="leftVideo" class="input" accept="video/*">
@@ -363,17 +322,27 @@
         <div id="left-controls" class="box">
             <div class="field">
                 <label class="label">Rotate</label>
-                <div class="control mb-2">
-                    <button id="rotateX90" class="button is-fullwidth">X+90</button>
-                </div>
-                <div class="control mb-2">
-                    <button id="rotateX-90" class="button is-fullwidth">X-90</button>
-                </div>
-                <div class="control mb-2">
-                    <button id="rotateY90" class="button is-fullwidth">Y+90</button>
-                </div>
-                <div class="control">
-                    <button id="rotateY-90" class="button is-fullwidth">Y-90</button>
+                <div class="field has-addons">
+                    <p class="control">
+                        <button id="rotateY-90" class="button">
+                            <span class="icon"><i class="fas fa-arrow-left"></i></span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button id="rotateY90" class="button">
+                            <span class="icon"><i class="fas fa-arrow-right"></i></span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button id="rotateX90" class="button">
+                            <span class="icon"><i class="fas fa-arrow-down"></i></span>
+                        </button>
+                    </p>
+                    <p class="control">
+                        <button id="rotateX-90" class="button">
+                            <span class="icon"><i class="fas fa-arrow-up"></i></span>
+                        </button>
+                    </p>
                 </div>
             </div>
             <div class="field">
@@ -409,13 +378,9 @@
                       <input id="replicationCols" class="input" type="number" value="1" min="1">
                     </p>
                 </div>
-                <div class="field has-addons">
-                    <p class="control">
-                      <a class="button is-static">Gap</a>
-                    </p>
-                    <p class="control is-expanded">
-                      <input id="replicationGap" class="input" type="number" value="2" min="0" step="0.5">
-                    </p>
+                <div class="field">
+                    <label for="replicationGap" class="label is-small">Gap</label>
+                    <input id="replicationGap" class="slider is-fullwidth" type="range" min="-10" max="20" step="0.5" value="2">
                 </div>
             </div>
             <div class="field">

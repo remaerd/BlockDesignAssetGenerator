@@ -7,26 +7,64 @@ export class CubeManager {
         this.cubes = [];
         this.materials = this.createInitialMaterials();
         this.strokes = [];
+        this.grid = { rows: 1, cols: 1, gap: 2 };
     }
 
     createInitialMaterials() {
-        const color = 0xe21e26;
+        const color = '#e21e26';
+
+        const textureLoader = new THREE.TextureLoader();
+        const frontTexture = textureLoader.load('assets/images/UWE_Web_Avatar_Top-24.png');
+        frontTexture.minFilter = THREE.LinearFilter;
+        const frontMaterial = new THREE.MeshBasicMaterial({ map: frontTexture });
+
+        const rightCanvas = this.createTextCanvas("University of the West of England", color);
+        const rightTexture = new THREE.CanvasTexture(rightCanvas);
+        rightTexture.minFilter = THREE.LinearFilter;
+        const rightMaterial = new THREE.MeshBasicMaterial({ map: rightTexture });
+
+        const topCanvas = this.createTextCanvas("School of Computing and Creative Technologies", color);
+        const topTexture = new THREE.CanvasTexture(topCanvas);
+        topTexture.minFilter = THREE.LinearFilter;
+        const topMaterial = new THREE.MeshBasicMaterial({ map: topTexture });
+
         return [
-            new THREE.MeshBasicMaterial({ color }), // right
+            rightMaterial,           // right
             new THREE.MeshBasicMaterial({ color }), // left
-            new THREE.MeshBasicMaterial({ color }), // top
+            topMaterial,             // top
             new THREE.MeshBasicMaterial({ color }), // bottom
-            new THREE.MeshBasicMaterial({ color }), // front
+            frontMaterial,           // front
             new THREE.MeshBasicMaterial({ color })  // back
         ];
     }
 
-    replicate(rows, cols, gap) {
+    replicate(rows, cols) {
+        this.grid.rows = rows;
+        this.grid.cols = cols;
+
         const currentRotation = this.cubes.length > 0 ? this.cubes[0].rotation.clone() : new THREE.Euler();
         
         this.cubes.forEach(cube => this.sceneManager.remove(cube));
         this.cubes = [];
         this.strokes = [];
+
+        const cubeSize = 10;
+
+        for (let r = 0; r < this.grid.rows; r++) {
+            for (let c = 0; c < this.grid.cols; c++) {
+                const newCube = new THREE.Mesh(new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize), this.materials.map(m => m.clone()));
+                newCube.rotation.copy(currentRotation);
+                this.cubes.push(newCube);
+                this.sceneManager.add(newCube);
+                this.strokes.push(this.createStrokeForCube(newCube));
+            }
+        }
+        this.updateLayout(this.grid.gap, 0); // Update layout without animation
+    }
+
+    updateLayout(gap, duration = 0.5) {
+        this.grid.gap = gap;
+        const { rows, cols } = this.grid;
 
         const cubeSize = 10;
         const step = cubeSize + gap;
@@ -35,17 +73,73 @@ export class CubeManager {
         const startX = -totalWidth / 2;
         const startY = -totalHeight / 2;
 
-        for (let r = 0; r < rows; r++) {
-            for (let c = 0; c < cols; c++) {
-                const newCube = new THREE.Mesh(new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize), this.materials.map(m => m.clone()));
-                newCube.position.set(startX + c * step, startY + r * step, 0);
-                newCube.rotation.copy(currentRotation);
-                this.cubes.push(newCube);
-                this.sceneManager.add(newCube);
-                this.strokes.push(this.createStrokeForCube(newCube));
+        this.cubes.forEach((cube, index) => {
+            const r = Math.floor(index / cols);
+            const c = index % cols;
+            const targetPosition = {
+                x: startX + c * step,
+                y: startY + r * step,
+                z: 0
+            };
+
+            if (duration > 0) {
+                gsap.to(cube.position, {
+                    ...targetPosition,
+                    duration: duration,
+                    ease: 'power2.out'
+                });
+            } else {
+                cube.position.set(targetPosition.x, targetPosition.y, targetPosition.z);
             }
+        });
+
+        if (duration > 0) {
+            gsap.to({}, { 
+                duration, 
+                onUpdate: () => this.sceneManager.camera.lookAt(new THREE.Vector3(0, 0, 0)) 
+            });
+        } else {
+            this.sceneManager.camera.lookAt(new THREE.Vector3(0, 0, 0));
         }
-        this.sceneManager.camera.lookAt(new THREE.Vector3(0, 0, 0));
+    }
+
+    getContrastingTextColor(hex) {
+        if (hex.startsWith('#')) hex = hex.slice(1);
+        const r = parseInt(hex.substring(0, 2), 16), g = parseInt(hex.substring(2, 4), 16), b = parseInt(hex.substring(4, 6), 16);
+        const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        return (yiq >= 128) ? '#000000' : '#ffffff';
+    }
+
+    createTextCanvas(content, color) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 512;
+        const context = canvas.getContext('2d');
+
+        context.fillStyle = color;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+        context.fillStyle = this.getContrastingTextColor(color);
+        context.font = '48pt parisine-std';
+        context.textAlign = 'left';
+        context.textBaseline = 'top';
+
+        if (content.trim() !== '') {
+            const padding = 40, lineHeight = 64, x = padding, maxWidth = canvas.width - (padding * 2);
+            let line = '', y = padding;
+            const words = content.split(' ');
+            for (let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + ' ';
+                if (context.measureText(testLine).width > maxWidth && n > 0) {
+                    context.fillText(line, x, y);
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            context.fillText(line, x, y);
+        }
+        return canvas;
     }
 
     createStrokeForCube(cube) {

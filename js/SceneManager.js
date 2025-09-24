@@ -10,8 +10,8 @@ export class SceneManager {
         
         const aspect = window.innerWidth / window.innerHeight;
         const d = 20;
-        this.camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 1000);
-        this.camera.position.set(20, 20, 20);
+        this.camera = new THREE.OrthographicCamera(-d * aspect, d * aspect, d, -d, 1, 20000);
+        this.camera.position.set(100, 100, 100);
         this.camera.lookAt(this.scene.position);
 
         this.renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
@@ -74,9 +74,9 @@ export class SceneManager {
         const onUpdate = () => this.camera.lookAt(this.scene.position);
 
         if (viewMode === 'isometric') {
-            gsap.to(this.camera.position, { x: 20, y: 20, z: 20, duration, ease, onUpdate, onComplete });
+            gsap.to(this.camera.position, { x: 100, y: 100, z: 100, duration, ease, onUpdate, onComplete });
         } else { // flat view
-            const distance = 15;
+            const distance = 100;
             let targetPosition = { x: 0, y: 0, z: 0 };
             switch (face) {
                 case 'front': targetPosition = { x: 0, y: 0, z: distance }; break;
