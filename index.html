@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Isometric Cube</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="container">
+        <canvas id="canvas"></canvas>
+        <div id="controls">
+
+            <div id="frontPanel" class="panel">
+                <h3>Front</h3>
+                <div>
+                    <input type="radio" id="frontTextToggle" name="frontContent" value="text" checked>
+                    <label for="frontTextToggle">Text</label>
+                    <input type="radio" id="frontImageToggle" name="frontContent" value="image">
+                    <label for="frontImageToggle">Image</label>
+                    <input type="radio" id="frontVideoToggle" name="frontContent" value="video">
+                    <label for="frontVideoToggle">Video</label>
+                </div>
+                <div id="frontTextContainer">
+                    <input type="text" id="frontText" placeholder="Enter text">
+                    <label for="frontColor">Background:</label>
+                    <input type="color" id="frontColor" value="#ff0000">
+                </div>
+                <div id="frontImageContainer" style="display: none;">
+                    <input type="file" id="frontImage" accept="image/*">
+                </div>
+                <div id="frontVideoContainer" style="display: none;">
+                    <input type="file" id="frontVideo" accept="video/*">
+                </div>
+            </div>
+
+            <div id="backPanel" class="panel">
+                <h3>Back</h3>
+                <div>
+                    <input type="radio" id="backTextToggle" name="backContent" value="text" checked>
+                    <label for="backTextToggle">Text</label>
+                    <input type="radio" id="backImageToggle" name="backContent" value="image">
+                    <label for="backImageToggle">Image</label>
+                    <input type="radio" id="backVideoToggle" name="backContent" value="video">
+                    <label for="backVideoToggle">Video</label>
+                </div>
+                <div id="backTextContainer">
+                    <input type="text" id="backText" placeholder="Enter text">
+                    <label for="backColor">Background:</label>
+                    <input type="color" id="backColor" value="#00ff00">
+                </div>
+                <div id="backImageContainer" style="display: none;">
+                    <input type="file" id="backImage" accept="image/*">
+                </div>
+                <div id="backVideoContainer" style="display: none;">
+                    <input type="file" id="backVideo" accept="video/*">
+                </div>
+            </div>
+
+            <div id="topPanel" class="panel">
+                <h3>Top</h3>
+                <div>
+                    <input type="radio" id="topTextToggle" name="topContent" value="text" checked>
+                    <label for="topTextToggle">Text</label>
+                    <input type="radio" id="topImageToggle" name="topContent" value="image">
+                    <label for="topImageToggle">Image</label>
+                    <input type="radio" id="topVideoToggle" name="topContent" value="video">
+                    <label for="topVideoToggle">Video</label>
+                </div>
+                <div id="topTextContainer">
+                    <input type="text" id="topText" placeholder="Enter text">
+                    <label for="topColor">Background:</label>
+                    <input type="color" id="topColor" value="#0000ff">
+                </div>
+                <div id="topImageContainer" style="display: none;">
+                    <input type="file" id="topImage" accept="image/*">
+                </div>
+                <div id="topVideoContainer" style="display: none;">
+                    <input type="file" id="topVideo" accept="video/*">
+                </div>
+            </div>
+
+            <div id="bottomPanel" class="panel">
+                <h3>Bottom</h3>
+                <div>
+                    <input type="radio" id="bottomTextToggle" name="bottomContent" value="text" checked>
+                    <label for="bottomTextToggle">Text</label>
+                    <input type="radio" id="bottomImageToggle" name="bottomContent" value="image">
+                    <label for="bottomImageToggle">Image</label>
+                    <input type="radio" id="bottomVideoToggle" name="bottomContent" value="video">
+                    <label for="bottomVideoToggle">Video</label>
+                </div>
+                <div id="bottomTextContainer">
+                    <input type="text" id="bottomText" placeholder="Enter text">
+                    <label for="bottomColor">Background:</label>
+                    <input type="color" id="bottomColor" value="#ffff00">
+                </div>
+                <div id="bottomImageContainer" style="display: none;">
+                    <input type="file" id="bottomImage" accept="image/*">
+                </div>
+                <div id="bottomVideoContainer" style="display: none;">
+                    <input type="file" id="bottomVideo" accept="video/*">
+                </div>
+            </div>
+
+            <div id="rightPanel" class="panel">
+                <h3>Right</h3>
+                <div>
+                    <input type="radio" id="rightTextToggle" name="rightContent" value="text" checked>
+                    <label for="rightTextToggle">Text</label>
+                    <input type="radio" id="rightImageToggle" name="rightContent" value="image">
+                    <label for="rightImageToggle">Image</label>
+                    <input type="radio" id="rightVideoToggle" name="rightContent" value="video">
+                    <label for="rightVideoToggle">Video</label>
+                </div>
+                <div id="rightTextContainer">
+                    <input type="text" id="rightText" placeholder="Enter text">
+                    <label for="rightColor">Background:</label>
+                    <input type="color" id="rightColor" value="#00ffff">
+                </div>
+                <div id="rightImageContainer" style="display: none;">
+                    <input type="file" id="rightImage" accept="image/*">
+                </div>
+                <div id="rightVideoContainer" style="display: none;">
+                    <input type="file" id="rightVideo" accept="video/*">
+                </div>
+            </div>
+
+            <div id="leftPanel" class="panel">
+                <h3>Left</h3>
+                <div>
+                    <input type="radio" id="leftTextToggle" name="leftContent" value="text" checked>
+                    <label for="leftTextToggle">Text</label>
+                    <input type="radio" id="leftImageToggle" name="leftContent" value="image">
+                    <label for="leftImageToggle">Image</label>
+                    <input type="radio" id="leftVideoToggle" name="leftContent" value="video">
+                    <label for="leftVideoToggle">Video</label>
+                </div>
+                <div id="leftTextContainer">
+                    <input type="text" id="leftText" placeholder="Enter text">
+                    <label for="leftColor">Background:</label>
+                    <input type="color" id="leftColor" value="#ff00ff">
+                </div>
+                <div id="leftImageContainer" style="display: none;">
+                    <input type="file" id="leftImage" accept="image/*">
+                </div>
+                <div id="leftVideoContainer" style="display: none;">
+                    <input type="file" id="leftVideo" accept="video/*">
+                </div>
+            </div>
+
+            <div id="strokePanel" class="panel">
+                <h3>Stroke Width</h3>
+                <label for="strokeWidthSlider">Adjust Stroke Width:</label>
+                <input type="range" id="strokeWidthSlider" min="1" max="10" value="1" step="0.1">
+            </div>
+        </div>
+    </div>
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.min.js",
+                "three/examples/jsm/lines/LineSegmentsGeometry.js": "https://unpkg.com/three@0.128.0/examples/jsm/lines/LineSegmentsGeometry.js",
+                "three/examples/jsm/lines/LineGeometry.js": "https://unpkg.com/three@0.128.0/examples/jsm/lines/LineGeometry.js",
+                "three/examples/jsm/lines/LineMaterial.js": "https://unpkg.com/three@0.128.0/examples/jsm/lines/LineMaterial.js",
+                "three/examples/jsm/lines/LineSegments2.js": "https://unpkg.com/three@0.128.0/examples/jsm/lines/LineSegments2.js"
+            }
+        }
+    </script>
+    <script type="module" src="js/main.js"></script>
+</body>
+</html>

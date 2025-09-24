@@ -1,0 +1,13 @@
+@font-face {
+    font-family: 'IBM Plex Sans';
+    src: url('../assets/IBMPlexSans-VariableFont_wdth,wght.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Apply font globally and add fallback */
+body {
+    font-family: 'IBM Plex Sans', Arial, sans-serif;
+}
+
+/* Other styles */
