@@ -120,7 +120,10 @@ export class MainPanel {
         const colorPreview = document.getElementById(`${face}ColorPreview`);
 
         new ColorPicker(dropdown, colorInput, colorPreview, this.paletteColors, (color) => {
-            const contentType = document.querySelector(`input[name="${face}Content"]:checked`).value;
+            const activeToggle = document.querySelector(`.content-toggle[data-face="${face}"].is-active`);
+            if (!activeToggle) return;
+            const contentType = activeToggle.dataset.type;
+            
             if (contentType === 'text') this.handleTextUpdate(face);
             else if (contentType === 'qr') this.handleQrUpdate(face);
         });
@@ -145,6 +148,15 @@ export class MainPanel {
                     this.handleImageUpdate(face, e.target.files[0]);
                 }
             });
+        }
+    }
+
+    updateQrCodeBackgrounds() {
+        for (const face in this.faceMapping) {
+            const activeToggle = document.querySelector(`.content-toggle[data-face="${face}"].is-active`);
+            if (activeToggle && activeToggle.dataset.type === 'qr') {
+                this.handleQrUpdate(face);
+            }
         }
     }
 

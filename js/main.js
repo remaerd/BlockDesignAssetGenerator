@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const sceneManager = new SceneManager(canvas);
     const cubeManager = new CubeManager(sceneManager);
     
-    new MainPanel(cubeManager, sceneManager);
-    new SidePanel(cubeManager, sceneManager);
+    const mainPanel = new MainPanel(cubeManager, sceneManager);
+    new SidePanel(cubeManager, sceneManager, mainPanel);
 
     sceneManager.setupMouseControls((deltaX, deltaY) => {
         cubeManager.dragRotate(deltaX, deltaY);

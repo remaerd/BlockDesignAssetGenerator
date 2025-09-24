@@ -1,9 +1,10 @@
 import { ColorPicker } from './ColorPicker.js';
 
 export class SidePanel {
-    constructor(cubeManager, sceneManager) {
+    constructor(cubeManager, sceneManager, mainPanel) {
         this.cubeManager = cubeManager;
         this.sceneManager = sceneManager;
+        this.mainPanel = mainPanel;
         this.currentViewMode = 'isometric';
         this.flatViewFaceIndex = 0;
         this.flatViewFaces = ['front', 'back', 'top', 'bottom', 'right', 'left'];
@@ -119,6 +120,7 @@ export class SidePanel {
         new ColorPicker(dropdown, colorInput, colorPreview, this.paletteColors, (color) => {
             this.sceneManager.scene.background.set(color);
             this.cubeManager.strokes.forEach(stroke => stroke.material.color.set(color));
+            this.mainPanel.updateQrCodeBackgrounds();
         });
     }
 }
