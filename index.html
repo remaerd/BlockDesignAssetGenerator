@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Isometric Cube</title>
+    <title>Block Design / Brand Asset Generator / School of Computing and Creative Technologies / University of the West of England</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div id="container">
         <canvas id="canvas"></canvas>
         <div id="controls">
+
+            <button id="toggleUiButton">Toggle UI</button>
 
             <div id="frontPanel" class="panel">
                 <h3>Front</h3>
@@ -148,11 +150,32 @@
                     <input type="file" id="leftVideo" accept="video/*">
                 </div>
             </div>
+        </div>
 
-            <div id="strokePanel" class="panel">
-                <h3>Stroke Width</h3>
-                <label for="strokeWidthSlider">Adjust Stroke Width:</label>
-                <input type="range" id="strokeWidthSlider" min="1" max="10" value="1" step="0.1">
+        <div id="bottom-controls">
+            <div class="control-group">
+                <label>Rotate:</label>
+                <button id="rotateX90">X+90</button>
+                <button id="rotateX-90">X-90</button>
+                <button id="rotateY90">Y+90</button>
+                <button id="rotateY-90">Y-90</button>
+                <button id="rotateZ90">Z+90</button>
+                <button id="rotateZ-90">Z-90</button>
+            </div>
+            <div class="control-group">
+                <label>View:</label>
+                <select id="viewMode">
+                    <option value="isometric" selected>Isometric</option>
+                    <option value="2d">2D Flat</option>
+                </select>
+                <select id="flatViewFace" style="display: none;">
+                    <option value="front">Front</option>
+                    <option value="back">Back</option>
+                    <option value="top">Top</option>
+                    <option value="bottom">Bottom</option>
+                    <option value="right">Right</option>
+                    <option value="left">Left</option>
+                </select>
             </div>
         </div>
     </div>

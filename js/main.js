@@ -1,9 +1,6 @@
 import * as THREE from 'three';
 import { createScene } from './scene.js';
 import { createCube } from './cube.js';
-import { LineSegments2 } from 'three/examples/jsm/lines/LineSegments2.js';
-import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
-import { LineGeometry } from 'three/examples/jsm/lines/LineGeometry.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('canvas');
@@ -15,18 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let line;
 
     function createStroke() {
-        const strokeWidthSlider = document.getElementById('strokeWidthSlider');
         if (line) {
             cube.remove(line);
         }
         const edges = new THREE.EdgesGeometry(cube.geometry);
-        const lineGeo = new LineGeometry().setPositions(edges.attributes.position.array);
-        const lineMat = new LineMaterial({
-            color: 0x000000,
-            linewidth: parseFloat(strokeWidthSlider.value),
-        });
-        lineMat.resolution.set(window.innerWidth, window.innerHeight);
-        line = new LineSegments2(lineGeo, lineMat);
+        const lineMat = new THREE.LineBasicMaterial({ color: 0x000000 });
+        line = new THREE.LineSegments(edges, lineMat);
         cube.add(line);
     }
 
@@ -69,14 +60,62 @@ document.addEventListener('DOMContentLoaded', () => {
         isDragging = false;
     });
 
-    const strokeWidthSlider = document.getElementById('strokeWidthSlider');
+    const toggleUiButton = document.getElementById('toggleUiButton');
+    const panels = document.querySelectorAll('.panel');
+    let uiVisible = true;
 
-    strokeWidthSlider.addEventListener('input', (e) => {
-        if (line) {
-            line.material.linewidth = parseFloat(e.target.value);
-            line.material.needsUpdate = true;
-        }
+    toggleUiButton.addEventListener('click', () => {
+        uiVisible = !uiVisible;
+        panels.forEach(panel => {
+            panel.style.display = uiVisible ? 'block' : 'none';
+        });
     });
+
+    // Rotation and View Controls
+    const rotateX90 = document.getElementById('rotateX90');
+    const rotateX_90 = document.getElementById('rotateX-90');
+    const rotateY90 = document.getElementById('rotateY90');
+    const rotateY_90 = document.getElementById('rotateY-90');
+    const rotateZ90 = document.getElementById('rotateZ90');
+    const rotateZ_90 = document.getElementById('rotateZ-90');
+    const viewModeSelect = document.getElementById('viewMode');
+    const flatViewFaceSelect = document.getElementById('flatViewFace');
+
+    const PI_HALF = Math.PI / 2;
+
+    rotateX90.addEventListener('click', () => cube.rotation.x += PI_HALF);
+    rotateX_90.addEventListener('click', () => cube.rotation.x -= PI_HALF);
+    rotateY90.addEventListener('click', () => cube.rotation.y += PI_HALF);
+    rotateY_90.addEventListener('click', () => cube.rotation.y -= PI_HALF);
+    rotateZ90.addEventListener('click', () => cube.rotation.z += PI_HALF);
+    rotateZ_90.addEventListener('click', () => cube.rotation.z -= PI_HALF);
+
+    function setView() {
+        const viewMode = viewModeSelect.value;
+        const face = flatViewFaceSelect.value;
+
+        if (viewMode === 'isometric') {
+            flatViewFaceSelect.style.display = 'none';
+            camera.position.set(20, 20, 20);
+            cube.rotation.set(0, 0, 0);
+        } else { // 2D Flat view
+            flatViewFaceSelect.style.display = 'inline-block';
+            cube.rotation.set(0, 0, 0);
+            const distance = 15;
+            switch (face) {
+                case 'front': camera.position.set(0, 0, distance); break;
+                case 'back': camera.position.set(0, 0, -distance); break;
+                case 'top': camera.position.set(0, distance, 0); break;
+                case 'bottom': camera.position.set(0, -distance, 0); break;
+                case 'right': camera.position.set(distance, 0, 0); break;
+                case 'left': camera.position.set(-distance, 0, 0); break;
+            }
+        }
+        camera.lookAt(scene.position);
+    }
+
+    viewModeSelect.addEventListener('change', setView);
+    flatViewFaceSelect.addEventListener('change', setView);
 
     const textInputs = {
         front: document.getElementById('frontText'),
