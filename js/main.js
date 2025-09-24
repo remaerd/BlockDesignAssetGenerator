@@ -249,31 +249,37 @@ document.addEventListener('DOMContentLoaded', () => {
             text: document.getElementById('frontTextContainer'),
             image: document.getElementById('frontImageContainer'),
             video: document.getElementById('frontVideoContainer'),
+            qr: document.getElementById('frontQrContainer'),
         },
         back: {
             text: document.getElementById('backTextContainer'),
             image: document.getElementById('backImageContainer'),
             video: document.getElementById('backVideoContainer'),
+            qr: document.getElementById('backQrContainer'),
         },
         top: {
             text: document.getElementById('topTextContainer'),
             image: document.getElementById('topImageContainer'),
             video: document.getElementById('topVideoContainer'),
+            qr: document.getElementById('topQrContainer'),
         },
         bottom: {
             text: document.getElementById('bottomTextContainer'),
             image: document.getElementById('bottomImageContainer'),
             video: document.getElementById('bottomVideoContainer'),
+            qr: document.getElementById('bottomQrContainer'),
         },
         right: {
             text: document.getElementById('rightTextContainer'),
             image: document.getElementById('rightImageContainer'),
             video: document.getElementById('rightVideoContainer'),
+            qr: document.getElementById('rightQrContainer'),
         },
         left: {
             text: document.getElementById('leftTextContainer'),
             image: document.getElementById('leftImageContainer'),
             video: document.getElementById('leftVideoContainer'),
+            qr: document.getElementById('leftQrContainer'),
         },
     };
 
@@ -306,6 +312,15 @@ document.addEventListener('DOMContentLoaded', () => {
         left: document.getElementById('leftVideo'),
     };
 
+    const qrInputs = {
+        front: document.getElementById('frontQr'),
+        back: document.getElementById('backQr'),
+        top: document.getElementById('topQr'),
+        bottom: document.getElementById('bottomQr'),
+        right: document.getElementById('rightQr'),
+        left: document.getElementById('leftQr'),
+    };
+
     for (const face in imageInputs) {
         imageInputs[face].addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -324,6 +339,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 const url = URL.createObjectURL(file);
                 const faceIndex = faceMapping[face];
                 updateCubeVideo(faceIndex, url);
+            }
+        });
+    }
+
+    for (const face in qrInputs) {
+        qrInputs[face].addEventListener('input', (e) => {
+            const url = e.target.value;
+            const faceIndex = faceMapping[face];
+            const color = colorInputs[face].value;
+            updateCubeQr(faceIndex, url, color);
+        });
+
+        colorInputs[face].addEventListener('input', (e) => {
+            const contentType = document.querySelector(`input[name="${face}Content"]:checked`).value;
+            if (contentType === 'qr') {
+                const url = qrInputs[face].value;
+                const faceIndex = faceMapping[face];
+                const color = e.target.value;
+                updateCubeQr(faceIndex, url, color);
             }
         });
     }
@@ -360,6 +394,72 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cube.material[faceIndex]) {
             cube.material[faceIndex] = material;
             cube.material[faceIndex].needsUpdate = true;
+        }
+    }
+
+    function updateCubeQr(faceIndex, url, color) {
+        const qrCanvas = document.createElement('canvas');
+        qrCanvas.width = 512;
+        qrCanvas.height = 512;
+        const context = qrCanvas.getContext('2d');
+
+        context.fillStyle = color;
+        context.fillRect(0, 0, qrCanvas.width, qrCanvas.height);
+
+        if (url.trim() !== '') {
+            const tempQrContainer = document.createElement('div');
+            tempQrContainer.style.position = 'absolute';
+            tempQrContainer.style.left = '-9999px';
+            document.body.appendChild(tempQrContainer);
+
+            new QRCode(tempQrContainer, {
+                text: url,
+                width: 400,
+                height: 400,
+                colorDark: '#FFFFFF',
+                colorLight: 'rgba(0,0,0,0)',
+                correctLevel: QRCode.CorrectLevel.H
+            });
+
+            // The library generates a canvas, we need to give it a moment to appear in the DOM.
+            setTimeout(() => {
+                const generatedCanvas = tempQrContainer.querySelector('canvas');
+                if (generatedCanvas) {
+                    const qrSize = 400;
+                    const x = (qrCanvas.width - qrSize) / 2;
+                    const y = (qrCanvas.height - qrSize) / 2;
+                    context.drawImage(generatedCanvas, x, y, qrSize, qrSize);
+
+                    const texture = new THREE.CanvasTexture(qrCanvas);
+                    texture.minFilter = THREE.LinearFilter;
+                    texture.magFilter = THREE.LinearFilter;
+                    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+                    texture.needsUpdate = true;
+                    const material = new THREE.MeshBasicMaterial({ map: texture });
+
+                    if (cube.material[faceIndex]) {
+                        cube.material[faceIndex] = material;
+                        cube.material[faceIndex].needsUpdate = true;
+                    }
+                } else {
+                    console.error('QR code canvas not found.');
+                }
+                document.body.removeChild(tempQrContainer);
+            }, 100); // A short delay to ensure the QR code is rendered.
+
+        } else {
+            // If URL is empty, just show the background color
+            const texture = new THREE.CanvasTexture(qrCanvas);
+            texture.minFilter = THREE.LinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            texture.needsUpdate = true;
+            const material = new THREE.MeshBasicMaterial({ map: texture });
+
+            if (cube.material[faceIndex]) {
+                cube.material[faceIndex] = material;
+                cube.material[faceIndex].needsUpdate = true;
+            }
         }
     }
 });

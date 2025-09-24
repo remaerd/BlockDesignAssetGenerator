@@ -22,6 +22,8 @@
                     <label for="frontImageToggle">Image</label>
                     <input type="radio" id="frontVideoToggle" name="frontContent" value="video">
                     <label for="frontVideoToggle">Video</label>
+                    <input type="radio" id="frontQrToggle" name="frontContent" value="qr">
+                    <label for="frontQrToggle">QR Code</label>
                 </div>
                 <div id="frontTextContainer">
                     <input type="text" id="frontText" placeholder="Enter text">
@@ -34,6 +36,9 @@
                 <div id="frontVideoContainer" style="display: none;">
                     <input type="file" id="frontVideo" accept="video/*">
                 </div>
+                <div id="frontQrContainer" style="display: none;">
+                    <input type="text" id="frontQr" placeholder="Enter URL for QR code">
+                </div>
             </div>
 
             <div id="backPanel" class="panel">
@@ -45,6 +50,8 @@
                     <label for="backImageToggle">Image</label>
                     <input type="radio" id="backVideoToggle" name="backContent" value="video">
                     <label for="backVideoToggle">Video</label>
+                    <input type="radio" id="backQrToggle" name="backContent" value="qr">
+                    <label for="backQrToggle">QR Code</label>
                 </div>
                 <div id="backTextContainer">
                     <input type="text" id="backText" placeholder="Enter text">
@@ -57,6 +64,9 @@
                 <div id="backVideoContainer" style="display: none;">
                     <input type="file" id="backVideo" accept="video/*">
                 </div>
+                <div id="backQrContainer" style="display: none;">
+                    <input type="text" id="backQr" placeholder="Enter URL for QR code">
+                </div>
             </div>
 
             <div id="topPanel" class="panel">
@@ -68,6 +78,8 @@
                     <label for="topImageToggle">Image</label>
                     <input type="radio" id="topVideoToggle" name="topContent" value="video">
                     <label for="topVideoToggle">Video</label>
+                    <input type="radio" id="topQrToggle" name="topContent" value="qr">
+                    <label for="topQrToggle">QR Code</label>
                 </div>
                 <div id="topTextContainer">
                     <input type="text" id="topText" placeholder="Enter text">
@@ -80,6 +92,9 @@
                 <div id="topVideoContainer" style="display: none;">
                     <input type="file" id="topVideo" accept="video/*">
                 </div>
+                <div id="topQrContainer" style="display: none;">
+                    <input type="text" id="topQr" placeholder="Enter URL for QR code">
+                </div>
             </div>
 
             <div id="bottomPanel" class="panel">
@@ -91,6 +106,8 @@
                     <label for="bottomImageToggle">Image</label>
                     <input type="radio" id="bottomVideoToggle" name="bottomContent" value="video">
                     <label for="bottomVideoToggle">Video</label>
+                    <input type="radio" id="bottomQrToggle" name="bottomContent" value="qr">
+                    <label for="bottomQrToggle">QR Code</label>
                 </div>
                 <div id="bottomTextContainer">
                     <input type="text" id="bottomText" placeholder="Enter text">
@@ -103,6 +120,9 @@
                 <div id="bottomVideoContainer" style="display: none;">
                     <input type="file" id="bottomVideo" accept="video/*">
                 </div>
+                <div id="bottomQrContainer" style="display: none;">
+                    <input type="text" id="bottomQr" placeholder="Enter URL for QR code">
+                </div>
             </div>
 
             <div id="rightPanel" class="panel">
@@ -114,6 +134,8 @@
                     <label for="rightImageToggle">Image</label>
                     <input type="radio" id="rightVideoToggle" name="rightContent" value="video">
                     <label for="rightVideoToggle">Video</label>
+                    <input type="radio" id="rightQrToggle" name="rightContent" value="qr">
+                    <label for="rightQrToggle">QR Code</label>
                 </div>
                 <div id="rightTextContainer">
                     <input type="text" id="rightText" placeholder="Enter text">
@@ -126,6 +148,9 @@
                 <div id="rightVideoContainer" style="display: none;">
                     <input type="file" id="rightVideo" accept="video/*">
                 </div>
+                <div id="rightQrContainer" style="display: none;">
+                    <input type="text" id="rightQr" placeholder="Enter URL for QR code">
+                </div>
             </div>
 
             <div id="leftPanel" class="panel">
@@ -137,6 +162,8 @@
                     <label for="leftImageToggle">Image</label>
                     <input type="radio" id="leftVideoToggle" name="leftContent" value="video">
                     <label for="leftVideoToggle">Video</label>
+                    <input type="radio" id="leftQrToggle" name="leftContent" value="qr">
+                    <label for="leftQrToggle">QR Code</label>
                 </div>
                 <div id="leftTextContainer">
                     <input type="text" id="leftText" placeholder="Enter text">
@@ -148,6 +175,9 @@
                 </div>
                 <div id="leftVideoContainer" style="display: none;">
                     <input type="file" id="leftVideo" accept="video/*">
+                </div>
+                <div id="leftQrContainer" style="display: none;">
+                    <input type="text" id="leftQr" placeholder="Enter URL for QR code">
                 </div>
             </div>
         </div>
@@ -182,6 +212,7 @@
             }
         }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
