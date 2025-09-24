@@ -30,15 +30,23 @@
 
                 <div id="front-content" class="tab-content">
                     <div class="panel-block">
-                        <div class="control">
-                            <input type="radio" id="frontTextToggle" name="frontContent" value="text" checked>
-                            <label for="frontTextToggle">Text</label>
-                            <input type="radio" id="frontImageToggle" name="frontContent" value="image">
-                            <label for="frontImageToggle">Image</label>
-                            <input type="radio" id="frontVideoToggle" name="frontContent" value="video">
-                            <label for="frontVideoToggle">Video</label>
-                            <input type="radio" id="frontQrToggle" name="frontContent" value="qr">
-                            <label for="frontQrToggle">QR Code</label>
+                        <div class="field is-grouped is-grouped-multiline">
+                            <div class="control">
+                                <input type="radio" id="frontTextToggle" name="frontContent" value="text" checked>
+                                <label for="frontTextToggle">Text</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="frontImageToggle" name="frontContent" value="image">
+                                <label for="frontImageToggle">Image</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="frontVideoToggle" name="frontContent" value="video">
+                                <label for="frontVideoToggle">Video</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="frontQrToggle" name="frontContent" value="qr">
+                                <label for="frontQrToggle">QR Code</label>
+                            </div>
                         </div>
                     </div>
                     <div class="panel-block" id="frontTextContainer">
@@ -48,7 +56,18 @@
                                     <input type="text" id="frontText" class="input" placeholder="Enter text">
                                 </div>
                                 <div class="control">
-                                    <input type="color" id="frontColor" class="input" value="#ff0000">
+                                    <div id="frontColorDropdown" class="dropdown is-up">
+                                        <div class="dropdown-trigger">
+                                            <button class="button" aria-haspopup="true" aria-controls="front-dropdown-menu">
+                                                <span id="frontColorPreview" class="color-preview-swatch"></span>
+                                                <span class="icon is-small"><i class="fas fa-angle-down" aria-hidden="true"></i></span>
+                                            </button>
+                                        </div>
+                                        <div class="dropdown-menu" id="front-dropdown-menu" role="menu">
+                                            <div class="dropdown-content"></div>
+                                        </div>
+                                        <input type="hidden" id="frontColor" value="#e21e26">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -66,15 +85,23 @@
 
                 <div id="back-content" class="tab-content" style="display: none;">
                     <div class="panel-block">
-                        <div class="control">
-                            <input type="radio" id="backTextToggle" name="backContent" value="text" checked>
-                            <label for="backTextToggle">Text</label>
-                            <input type="radio" id="backImageToggle" name="backContent" value="image">
-                            <label for="backImageToggle">Image</label>
-                            <input type="radio" id="backVideoToggle" name="backContent" value="video">
-                            <label for="backVideoToggle">Video</label>
-                            <input type="radio" id="backQrToggle" name="backContent" value="qr">
-                            <label for="backQrToggle">QR Code</label>
+                        <div class="field is-grouped is-grouped-multiline">
+                            <div class="control">
+                                <input type="radio" id="backTextToggle" name="backContent" value="text" checked>
+                                <label for="backTextToggle">Text</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="backImageToggle" name="backContent" value="image">
+                                <label for="backImageToggle">Image</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="backVideoToggle" name="backContent" value="video">
+                                <label for="backVideoToggle">Video</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="backQrToggle" name="backContent" value="qr">
+                                <label for="backQrToggle">QR Code</label>
+                            </div>
                         </div>
                     </div>
                     <div class="panel-block" id="backTextContainer">
@@ -84,7 +111,18 @@
                                     <input type="text" id="backText" class="input" placeholder="Enter text">
                                 </div>
                                 <div class="control">
-                                    <input type="color" id="backColor" class="input" value="#00ff00">
+                                    <div id="backColorDropdown" class="dropdown is-up">
+                                        <div class="dropdown-trigger">
+                                            <button class="button" aria-haspopup="true" aria-controls="back-dropdown-menu">
+                                                <span id="backColorPreview" class="color-preview-swatch"></span>
+                                                <span class="icon is-small"><i class="fas fa-angle-down" aria-hidden="true"></i></span>
+                                            </button>
+                                        </div>
+                                        <div class="dropdown-menu" id="back-dropdown-menu" role="menu">
+                                            <div class="dropdown-content"></div>
+                                        </div>
+                                        <input type="hidden" id="backColor" value="#e21e26">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -102,15 +140,23 @@
 
                 <div id="top-content" class="tab-content" style="display: none;">
                     <div class="panel-block">
-                        <div class="control">
-                            <input type="radio" id="topTextToggle" name="topContent" value="text" checked>
-                            <label for="topTextToggle">Text</label>
-                            <input type="radio" id="topImageToggle" name="topContent" value="image">
-                            <label for="topImageToggle">Image</label>
-                            <input type="radio" id="topVideoToggle" name="topContent" value="video">
-                            <label for="topVideoToggle">Video</label>
-                            <input type="radio" id="topQrToggle" name="topContent" value="qr">
-                            <label for="topQrToggle">QR Code</label>
+                        <div class="field is-grouped is-grouped-multiline">
+                            <div class="control">
+                                <input type="radio" id="topTextToggle" name="topContent" value="text" checked>
+                                <label for="topTextToggle">Text</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="topImageToggle" name="topContent" value="image">
+                                <label for="topImageToggle">Image</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="topVideoToggle" name="topContent" value="video">
+                                <label for="topVideoToggle">Video</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="topQrToggle" name="topContent" value="qr">
+                                <label for="topQrToggle">QR Code</label>
+                            </div>
                         </div>
                     </div>
                     <div class="panel-block" id="topTextContainer">
@@ -120,7 +166,18 @@
                                     <input type="text" id="topText" class="input" placeholder="Enter text">
                                 </div>
                                 <div class="control">
-                                    <input type="color" id="topColor" class="input" value="#0000ff">
+                                    <div id="topColorDropdown" class="dropdown is-up">
+                                        <div class="dropdown-trigger">
+                                            <button class="button" aria-haspopup="true" aria-controls="top-dropdown-menu">
+                                                <span id="topColorPreview" class="color-preview-swatch"></span>
+                                                <span class="icon is-small"><i class="fas fa-angle-down" aria-hidden="true"></i></span>
+                                            </button>
+                                        </div>
+                                        <div class="dropdown-menu" id="top-dropdown-menu" role="menu">
+                                            <div class="dropdown-content"></div>
+                                        </div>
+                                        <input type="hidden" id="topColor" value="#e21e26">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -138,15 +195,23 @@
 
                 <div id="bottom-content" class="tab-content" style="display: none;">
                     <div class="panel-block">
-                        <div class="control">
-                            <input type="radio" id="bottomTextToggle" name="bottomContent" value="text" checked>
-                            <label for="bottomTextToggle">Text</label>
-                            <input type="radio" id="bottomImageToggle" name="bottomContent" value="image">
-                            <label for="bottomImageToggle">Image</label>
-                            <input type="radio" id="bottomVideoToggle" name="bottomContent" value="video">
-                            <label for="bottomVideoToggle">Video</label>
-                            <input type="radio" id="bottomQrToggle" name="bottomContent" value="qr">
-                            <label for="bottomQrToggle">QR Code</label>
+                        <div class="field is-grouped is-grouped-multiline">
+                            <div class="control">
+                                <input type="radio" id="bottomTextToggle" name="bottomContent" value="text" checked>
+                                <label for="bottomTextToggle">Text</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="bottomImageToggle" name="bottomContent" value="image">
+                                <label for="bottomImageToggle">Image</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="bottomVideoToggle" name="bottomContent" value="video">
+                                <label for="bottomVideoToggle">Video</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="bottomQrToggle" name="bottomContent" value="qr">
+                                <label for="bottomQrToggle">QR Code</label>
+                            </div>
                         </div>
                     </div>
                     <div class="panel-block" id="bottomTextContainer">
@@ -156,7 +221,18 @@
                                     <input type="text" id="bottomText" class="input" placeholder="Enter text">
                                 </div>
                                 <div class="control">
-                                    <input type="color" id="bottomColor" class="input" value="#ffff00">
+                                    <div id="bottomColorDropdown" class="dropdown is-up">
+                                        <div class="dropdown-trigger">
+                                            <button class="button" aria-haspopup="true" aria-controls="bottom-dropdown-menu">
+                                                <span id="bottomColorPreview" class="color-preview-swatch"></span>
+                                                <span class="icon is-small"><i class="fas fa-angle-down" aria-hidden="true"></i></span>
+                                            </button>
+                                        </div>
+                                        <div class="dropdown-menu" id="bottom-dropdown-menu" role="menu">
+                                            <div class="dropdown-content"></div>
+                                        </div>
+                                        <input type="hidden" id="bottomColor" value="#e21e26">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -174,15 +250,23 @@
 
                 <div id="right-content" class="tab-content" style="display: none;">
                     <div class="panel-block">
-                        <div class="control">
-                            <input type="radio" id="rightTextToggle" name="rightContent" value="text" checked>
-                            <label for="rightTextToggle">Text</label>
-                            <input type="radio" id="rightImageToggle" name="rightContent" value="image">
-                            <label for="rightImageToggle">Image</label>
-                            <input type="radio" id="rightVideoToggle" name="rightContent" value="video">
-                            <label for="rightVideoToggle">Video</label>
-                            <input type="radio" id="rightQrToggle" name="rightContent" value="qr">
-                            <label for="rightQrToggle">QR Code</label>
+                        <div class="field is-grouped is-grouped-multiline">
+                            <div class="control">
+                                <input type="radio" id="rightTextToggle" name="rightContent" value="text" checked>
+                                <label for="rightTextToggle">Text</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="rightImageToggle" name="rightContent" value="image">
+                                <label for="rightImageToggle">Image</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="rightVideoToggle" name="rightContent" value="video">
+                                <label for="rightVideoToggle">Video</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="rightQrToggle" name="rightContent" value="qr">
+                                <label for="rightQrToggle">QR Code</label>
+                            </div>
                         </div>
                     </div>
                     <div class="panel-block" id="rightTextContainer">
@@ -192,7 +276,18 @@
                                     <input type="text" id="rightText" class="input" placeholder="Enter text">
                                 </div>
                                 <div class="control">
-                                    <input type="color" id="rightColor" class="input" value="#00ffff">
+                                    <div id="rightColorDropdown" class="dropdown is-up">
+                                        <div class="dropdown-trigger">
+                                            <button class="button" aria-haspopup="true" aria-controls="right-dropdown-menu">
+                                                <span id="rightColorPreview" class="color-preview-swatch"></span>
+                                                <span class="icon is-small"><i class="fas fa-angle-down" aria-hidden="true"></i></span>
+                                            </button>
+                                        </div>
+                                        <div class="dropdown-menu" id="right-dropdown-menu" role="menu">
+                                            <div class="dropdown-content"></div>
+                                        </div>
+                                        <input type="hidden" id="rightColor" value="#e21e26">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -210,15 +305,23 @@
 
                 <div id="left-content" class="tab-content" style="display: none;">
                     <div class="panel-block">
-                        <div class="control">
-                            <input type="radio" id="leftTextToggle" name="leftContent" value="text" checked>
-                            <label for="leftTextToggle">Text</label>
-                            <input type="radio" id="leftImageToggle" name="leftContent" value="image">
-                            <label for="leftImageToggle">Image</label>
-                            <input type="radio" id="leftVideoToggle" name="leftContent" value="video">
-                            <label for="leftVideoToggle">Video</label>
-                            <input type="radio" id="leftQrToggle" name="leftContent" value="qr">
-                            <label for="leftQrToggle">QR Code</label>
+                        <div class="field is-grouped is-grouped-multiline">
+                            <div class="control">
+                                <input type="radio" id="leftTextToggle" name="leftContent" value="text" checked>
+                                <label for="leftTextToggle">Text</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="leftImageToggle" name="leftContent" value="image">
+                                <label for="leftImageToggle">Image</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="leftVideoToggle" name="leftContent" value="video">
+                                <label for="leftVideoToggle">Video</label>
+                            </div>
+                            <div class="control">
+                                <input type="radio" id="leftQrToggle" name="leftContent" value="qr">
+                                <label for="leftQrToggle">QR Code</label>
+                            </div>
                         </div>
                     </div>
                     <div class="panel-block" id="leftTextContainer">
@@ -228,7 +331,18 @@
                                     <input type="text" id="leftText" class="input" placeholder="Enter text">
                                 </div>
                                 <div class="control">
-                                    <input type="color" id="leftColor" class="input" value="#ff00ff">
+                                    <div id="leftColorDropdown" class="dropdown is-up">
+                                        <div class="dropdown-trigger">
+                                            <button class="button" aria-haspopup="true" aria-controls="left-dropdown-menu">
+                                                <span id="leftColorPreview" class="color-preview-swatch"></span>
+                                                <span class="icon is-small"><i class="fas fa-angle-down" aria-hidden="true"></i></span>
+                                            </button>
+                                        </div>
+                                        <div class="dropdown-menu" id="left-dropdown-menu" role="menu">
+                                            <div class="dropdown-content"></div>
+                                        </div>
+                                        <input type="hidden" id="leftColor" value="#e21e26">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -246,7 +360,7 @@
             </div>
         </div>
 
-        <div id="bottom-controls" class="box">
+        <div id="left-controls" class="box">
             <div class="field">
                 <label class="label">Rotate</label>
                 <div class="control mb-2">
@@ -269,6 +383,56 @@
                 </div>
                 <div class="control">
                     <button id="viewFlat" class="button view-button is-fullwidth">Flat</button>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Zoom</label>
+                <div class="control">
+                    <input id="zoomSlider" class="slider is-fullwidth" type="range" min="0.1" max="2" step="0.1" value="1">
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Replication</label>
+                <div class="field has-addons">
+                    <p class="control">
+                      <a class="button is-static">Rows</a>
+                    </p>
+                    <p class="control is-expanded">
+                      <input id="replicationRows" class="input" type="number" value="1" min="1">
+                    </p>
+                </div>
+                <div class="field has-addons">
+                    <p class="control">
+                      <a class="button is-static">Cols</a>
+                    </p>
+                    <p class="control is-expanded">
+                      <input id="replicationCols" class="input" type="number" value="1" min="1">
+                    </p>
+                </div>
+                <div class="field has-addons">
+                    <p class="control">
+                      <a class="button is-static">Gap</a>
+                    </p>
+                    <p class="control is-expanded">
+                      <input id="replicationGap" class="input" type="number" value="2" min="0" step="0.5">
+                    </p>
+                </div>
+            </div>
+            <div class="field">
+                <label class="label">Background</label>
+                <div class="control">
+                    <div id="backgroundColorDropdown" class="dropdown is-up">
+                        <div class="dropdown-trigger">
+                            <button class="button is-fullwidth" aria-haspopup="true" aria-controls="background-dropdown-menu">
+                                <span id="backgroundColorPreview" class="color-preview-swatch"></span>
+                                <span class="icon is-small"><i class="fas fa-angle-down" aria-hidden="true"></i></span>
+                            </button>
+                        </div>
+                        <div class="dropdown-menu" id="background-dropdown-menu" role="menu">
+                            <div class="dropdown-content"></div>
+                        </div>
+                        <input type="hidden" id="backgroundColor">
+                    </div>
                 </div>
             </div>
         </div>

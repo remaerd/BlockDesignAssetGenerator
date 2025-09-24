@@ -2,6 +2,8 @@ import * as THREE from 'three';
 
 export function createScene(canvas) {
     const scene = new THREE.Scene();
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    scene.background = new THREE.Color(isDarkMode ? '#1a1a1a' : '#f0f0f0');
     
     const aspect = window.innerWidth / window.innerHeight;
     const d = 20;
